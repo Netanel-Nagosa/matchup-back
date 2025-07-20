@@ -1,0 +1,158 @@
+.App {
+    font-family: "Jost", sans-serif;
+    margin: 0;
+    flex-direction: column;
+    display: flex;
+    padding: 16px;
+    gap: 16px;
+    align-items: center;
+    height: fit-content;
+}
+
+.selectDiv {
+    border: 0px;
+    border-bottom: 1px solid gold;
+    padding-right: 24px;
+    background-color: transparent;
+    color: white;
+
+    option {
+        color: black;
+    }
+}
+
+.games {
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+    height: 100px;
+    gap: 10px;
+    margin-top: auto;
+    /* כדי "לדחוף" אותו לתחתית הכרטיס */
+
+}
+
+.card {
+    width: 26%;
+    height: 242px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background-image: url('../backPhotos/backgroundAbout.png');
+    background-size: cover;
+    color: white;
+    border: 1px solid rgba(255, 217, 0, 0.251);
+
+    h5 {
+        color: goldenrod;
+    }
+
+    span {
+        font-weight: 600;
+        font-size: 15px;
+        font-style: italic;
+        line-height: 1.2;
+        display: block;
+    }
+
+    .bgTitleTime {
+        background-color: #5e5e5e45;
+    }
+
+}
+
+.class30 {
+    width: 30%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    text-align: center;
+}
+
+
+
+.gameBox {
+    background: linear-gradient(to bottom, #050505 0%, #000000fa 50%, #111111eb 100%);
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    gap: 8px;
+
+}
+
+.lgp {
+    background: linear-gradient(to top, #050505 0%, #2d2d2d72 50%, #050505 100%);
+    color: gold;
+    width: 96vw;
+    height: 96vh;
+    /* overflow-y: scroll; */
+    display: flex;
+    justify-content: center;
+    align-items: baseline;
+    flex-wrap: wrap;
+    border-radius: 5px;
+
+    .h2Div {
+        background: linear-gradient(to right, #2d2d2dbb 0%, #1f1f1f24 50%, #2d2d2dbb 100%);
+        width: 90%;
+        text-align: center;
+        margin-top: 10px;
+        margin-bottom: 10px;
+        border-radius: 5px;
+    }
+}
+.noGames{
+    width: 100%;
+    height: 88%;
+    border-radius: 8px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 4rem;
+    color: goldenrod;
+}
+@media screen and (max-width: 768px) {
+    .games {
+        flex-direction: column;
+        height: auto;
+        align-items: center;
+    }
+
+    .card {
+        width: 80%;
+        height: auto;
+        padding: 12px;
+    }
+
+    .class30 {
+        width: 100%;
+    }
+}
+
+@media screen and (max-width: 480px) {
+    .card span {
+        font-size: 12px;
+    }
+
+    .card h5 {
+        font-size: 1rem;
+    }
+
+    .selectDiv {
+        width: 90%;
+    }
+
+    .lgp {
+        width: 100vw;
+        height: auto;
+        flex-direction: column;
+        align-items: center;
+        padding: 8px;
+    }
+
+    .lgp .h2Div {
+        font-size: 1rem;
+    }
+}

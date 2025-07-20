@@ -1,0 +1,148 @@
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+    font-family: Arial, Helvetica, sans-serif;
+    color: white;
+}
+
+body {
+    display: flex;
+    height: 100vh;
+    background-image: linear-gradient(hsl(242.55deg 95.92% 9.61%)70%, rgb(13, 13, 120));
+    justify-content: space-between;
+}
+
+/* div,
+nav {
+    border: 2px solid white;
+}  */
+
+.header {
+    width: 24%;
+    height: 12%;
+    display: flex;
+    justify-content: left;
+    align-items: center;
+    padding: 0px 16px 0px 16px;
+
+    .logoSpot {
+        height: 98%;
+        width: 50%;
+        display: flex;
+        justify-content: left;
+        align-items: end;
+
+        img {
+            height: 83%;
+            width: 140px;
+            border-radius: 20px;
+        }
+    }
+}
+.main {
+    width: 74%;
+    height: 680px;
+    display: flex;
+    justify-content: space-between;
+    
+    
+
+    .register-card {
+        width: 58%;
+        height: 96%;
+        display: flex;
+        justify-content: baseline;
+        flex-direction: column;
+        box-shadow: -1px 10px 16px -5px rgba(0, 0, 0, 0.61);
+        background-image: url(photos/registerBackground.jpg);
+        background-size: cover;
+        border-radius: 5px;
+        padding: 6px;
+        gap: 24px;
+        margin-top: 20px;
+
+        nav{
+            display: flex;
+            font-size: 3rem;
+            font-weight: bold;
+            font-style: italic;
+            justify-content: center;
+            backdrop-filter: blur(2px);
+            border-bottom: 1px solid gold;
+            span{
+                color: green;
+            }
+        }
+        .rows{
+            display: flex;
+            max-width: 100%;
+            height: 490px;
+            padding: 6px;
+            backdrop-filter: blur(1.6px);
+            
+            .rowRules{
+                width: 50%;
+                padding: 6px;
+                display: flex;
+                flex-direction: column;
+                justify-content: space-evenly;
+                
+                label{
+                    padding-top: 40px;
+                    font-size: small;
+                    font-weight: 200;
+                    color: rgb(3, 190, 3);
+                }
+                .input-box{
+                    display: flex;
+                    align-items: center;
+                }
+               input{
+                background-color: inherit;
+                border: none;
+                border-bottom: 3px solid gold;
+                border-radius: 0;
+                width: 250px;
+                font-size: large;
+               }
+               input:focus {
+                outline: none;
+
+            }
+            }
+            
+        }
+        .buttonRules{
+            width: 100%;
+            height: 76px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            
+            button{
+                padding: 16px;
+                background-color:chartreuse;
+                border-radius: 5px;
+                font-weight: bold;
+                backdrop-filter: blur(2px);
+            }
+            button:hover{
+                background-color:  rgba(120, 238, 1, 0.86);
+                
+            }
+        }
+    }
+    .login-navigation{
+        width: 20%;
+        height: 18%;
+        display: flex;
+        font-size: small;
+        align-items: center;
+        justify-content: center;
+        a{
+            color: gold;
+            text-decoration: none;
+        }
+    }
+}

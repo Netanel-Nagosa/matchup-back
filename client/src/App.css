@@ -1,0 +1,206 @@
+/* רקע יהלומים */
+.backGDimonds {
+  background-color: #000;
+  background-image:
+    linear-gradient(129deg, #111 25%, transparent 25%),
+    linear-gradient(36deg, #111 25%, transparent 121%),
+    linear-gradient(142deg, #120e0e5c 75%, #111 84%),
+    linear-gradient(-203deg, #212221 91%, #111 72%);
+  background-size: 40px 40px;
+  background-position: 0 0, 0 20px, 20px -20px, -20px 0px;
+}
+
+/* לוגו */
+.logo {
+  font-size: 2.4rem;
+  display: flex;
+  align-items: center;
+  font-weight: 300;
+}
+
+.logo:hover {
+  text-shadow: -3px 1px 20px gray;
+}
+
+ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  font-size: 1rem;
+
+  li {
+    color: white;
+  }
+}
+
+.nav-link {
+  text-decoration: none;
+  padding: 14px;
+}
+
+.nav-link:hover {
+  background-color: #333;
+  border-radius: 4px;
+}
+
+.active-link {
+  background-color: #333;
+  border-radius: 4px;
+  color: white;
+}
+
+/* כפתורים */
+.btnLogEX {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 8px;
+}
+
+.custom-btn {
+  padding: 8px 12px;
+  border-radius: 8px;
+  font-size: 1rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 40px;
+  text-decoration: none;
+  color: white;
+  border: none;
+}
+
+.btn-login {
+  background-color: #198754;
+}
+
+.btn-login:hover {
+  background-color: #218838;
+}
+
+.btn-logout {
+  background-color: #dc3545;
+}
+
+.btn-logout:hover {
+  background-color: #c82333;
+}
+
+.btn-profile {
+  background-color: white;
+}
+
+.btn-profile:hover {
+  background-color: gray;
+}
+
+/* אייקון המבורגר */
+.hamburger {
+  font-size: 1.8rem;
+  background: none;
+  border: none;
+  color: white;
+  cursor: pointer;
+  display: block;
+}
+
+/* תפריט נפתח במובייל */
+
+
+.nav-menu.open {
+  display: block;
+  background-color: #111;
+  padding: 10px;
+  border-radius: 8px;
+
+}
+
+.footerDown {
+  height: 100px;
+  font-weight: 200;
+  display: flex;
+  align-items: center;
+
+}
+
+.footerDown p {
+  color: #9d9d9d;
+}
+
+/* מסכים גדולים */
+@media screen and (min-width: 768px) {
+  .hamburger {
+    display: none;
+  }
+
+  .nav-menu {
+    display: flex !important;
+    justify-content: center;
+    align-items: center;
+    background: none;
+    padding: 0;
+
+
+  }
+
+  .btnLogEX {
+    width: auto;
+  }
+}
+
+/* מובייל */
+@media screen and (max-width: 768px) {
+  .logo {
+    font-size: 2rem;
+    justify-content: center;
+    margin-bottom: 10px;
+  }
+
+  li {
+    border-bottom: 1px solid goldenrod;
+    padding-left: 40px;
+    padding-right: 40px;
+  }
+
+  .footerDown {
+    height: auto;
+    text-align: center;
+    padding: 12px 0;
+  }
+
+  .footerDown p {
+    font-size: 0.9rem;
+    padding: 0 10px;
+  }
+
+  .btnLogEX {
+    flex-direction: column;
+    gap: 6px;
+    justify-content: center;
+  }
+
+  .custom-btn {
+    font-size: 0.85rem;
+    padding: 6px 12px;
+    height: auto;
+  }
+
+  .clock {
+    font-size: 2.8rem !important;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .logo {
+    font-size: 1.8rem;
+  }
+
+  .nav-link {
+    font-size: 0.9rem;
+    padding: 10px;
+  }
+
+  .footerDown p {
+    font-size: 0.8rem;
+  }
+}

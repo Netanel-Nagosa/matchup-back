@@ -1,0 +1,113 @@
+.blok-about {
+    background-image: url('../backPhotos/backgroundAbout.png');
+    background-size: cover;
+    height: 110vh;
+    display: flex;
+    justify-content: center;
+    color: white;
+
+    .blok-about-text {
+        width: 85%;
+        margin-top: 16px;
+
+        .blok-about-text-headline {
+            height: 20%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-left: 8px;
+            padding-right: 8px;
+            background-color: rgba(53, 51, 51, 0.497);
+            border-radius: 8px;
+
+            h1 {
+                font-size: 5rem;
+                border-bottom: 1px solid gold;
+            }
+
+            .blok-about-text-headline-translate {
+                width: 80px;
+                height: 40px;
+                background-color: #545352;
+                color: white;
+                box-shadow: 0px 1px 1px 2px rgba(0, 0, 0, 0.55);
+                border-radius: 5px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                cursor: pointer;
+            }
+        }
+
+        .blok-about-text-headline-translate:hover {
+            background-color: #7e7d7d;
+            transition: 0.7s;
+        }
+
+        .blok-about-text-mainText {
+            height: 80%;
+            text-align: center;
+            flex-direction: column;
+            padding: 16px;
+            font-size: 1.03rem;
+        }
+    }
+}
+
+/* רספונסיביות לפלאפון */
+@media (max-width: 480px) {
+    .blok-about {
+        height: auto;
+        padding: 16px 0;
+    }
+
+    .blok-about-text {
+        width: 95%;
+        margin-top: 12px;
+    }
+
+    .blok-about-text-headline {
+        height: auto;
+        flex-direction: column;
+        justify-content: center;
+        align-items: flex-start;
+        padding: 8px 12px;
+        gap: 12px; /* הגדלתי קצת את המרווח בין כותרת לכפתור */
+        word-wrap: break-word; /* שיבקע מילים ארוכות לשורות */
+        width: 100%;
+        
+    }
+
+    .blok-about-text-headline h1 {
+        font-size: 1.8rem; /* הקטנה משמעותית יותר */
+        border-bottom: 1px solid gold;
+        width: 100%;
+        margin: 0;
+        line-height: 1.3; /* שורה צפופה יותר אבל קריאה */
+        white-space: normal; /* מתיר שבר מילים ומאפשר שורות חדשות */
+        word-break: break-word; /* שובר מילים ארוכות */
+    }
+
+    .blok-about-text-headline-translate {
+        width: 100%;
+        max-width: 150px;
+        height: 40px;
+        background-color: #545352;
+        color: white;
+        box-shadow: 0px 1px 1px 2px rgba(0, 0, 0, 0.55);
+        border-radius: 5px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+
+        margin-bottom: 16px; /* מרווח בין הכפתור לטקסט מתחת */
+    }
+
+    .blok-about-text-mainText {
+        margin-top: 171px; /* מאחר וכבר יש מרווח מהכפתור, אפשר לאפס פה */
+        font-size: 1rem;
+        padding: 0 12px;
+    }
+
+}

@@ -1,0 +1,193 @@
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+    font-family: Work Sans, sans-serif;
+}
+
+/* div {
+    border: 1px solid white
+} */
+
+body {
+    display: flex;
+    height: 100vh;
+    background-image: linear-gradient(hsl(243, 96%, 10%)70%, rgb(13, 13, 120));
+    color: white;
+    flex-direction: column;
+    align-items: center;
+    padding: 6px;
+    gap: 8px;
+}
+
+.sargel {
+    width: 99%;
+    height: 80px;
+    background: linear-gradient(to right, #04032e, #04032e, #487cff7e, #8f68ff, #fc72ff);
+    border-radius: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-left: 6px;
+    border-left: none;
+    border-right: none;
+
+
+    .logoSpot {
+        height: 98%;
+        width: 10%;
+        display: flex;
+        justify-content: left;
+        align-items: end;
+
+        img {
+            height: 96%;
+            width: 140px;
+            border-radius: 20px;
+        }
+    }
+
+    .nav-options {
+        display: flex;
+        width: 70%;
+        justify-content: space-between;
+        margin-left: 46px;
+        font-weight: 300;
+        font-size: large;
+
+        a {
+            text-decoration: none;
+            color: white;
+        }
+
+        a:nth-of-type(1) {
+
+            color: gold;
+
+        }
+    }
+
+    .nav-options>a:hover {
+        color: #fc72ff;
+
+    }
+
+    .off-screen-menu {
+        background-color: rgb(12, 15, 26);
+        height: 100vh;
+        width: 100%;
+        max-width: 280px;
+        position: fixed;
+        top: 0;
+        right: -450px;
+        display: flex;
+        flex-wrap: wrap;
+        flex-direction: column;
+        justify-content: center;
+        align-items: left;
+        text-align: left;
+        font-size: 1rem;
+        transition: .3s ease;
+        gap: 24px;
+        padding-top: 24px;
+        padding-left: 8px;
+        border-radius: 25px 0px 0px 25px;
+        border-left: 1px solid #fc72ff;
+        border-bottom: 1px solid #fc72ff;
+
+        .menu-options {
+            width: 100%;
+            height: 6%;
+            border-bottom: 1px solid #fc72ff;
+            border-bottom-left-radius: 26px;
+            padding-left: 7px;
+            cursor: pointer;
+            text-align: center;
+            font-weight: 300;
+            color: white;
+            text-decoration: none;
+        }
+
+        .menu-options:nth-child(5) {
+            color: rgb(255, 0, 0)
+        }
+
+        .menu-options:hover {
+            color: #487bff;
+        }
+
+    }
+
+    .off-screen-menu.active {
+        right: 0;
+    }
+
+    .nav-settings {
+        font-size: 2.6rem;
+        font-weight: 100;
+        cursor: pointer;
+        position: relative;
+        color: black;
+        text-align: center;
+    }
+
+}
+.games-blok{
+    width: 99%;
+    height: 580px;
+    box-shadow: -5px -3px 20px -9px #000000;
+    background-color: #3e3e4428;
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    flex-wrap: wrap;
+    padding: 6px;
+    gap:18px;
+    overflow-y: scroll;
+
+    .game{
+        width: 18%;
+        height: 20%;
+        box-shadow: -5px -3px 20px -9px #487bff;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: space-around;
+        text-align: center;
+        font-weight: 300;
+        font-size: large;
+        color: gold;
+        border: 1px solid #487cff57;
+        border-radius: 5px;
+        padding: 2px;
+        .homeTeam{
+            color: #8f68ff;
+        }
+        .awayTeam{
+            color: #fc72ff;
+        }
+        .bets{
+            width: 100%;
+            display: flex;
+            justify-content: space-evenly;
+
+            button{
+                width: 30%;
+                height: 30px;
+                border-radius: 5px;
+                border: none;
+                cursor: pointer;
+            }
+            button:nth-of-type(1){
+                background-color: #8f68ff;
+            }
+            button:nth-of-type(3){
+                background-color: #fc72ff;
+            }
+            button:hover{
+                filter: brightness(70%);
+            }
+            
+        }
+    }
+}

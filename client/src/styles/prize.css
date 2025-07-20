@@ -1,0 +1,299 @@
+ * {
+   box-sizing: border-box;
+   margin: 0;
+   padding: 0;
+   font-family: "Poppins", sans-serif;
+ }
+
+ /* div {
+   border: 1px solid greenyellow;
+ } */
+
+ .blokPrize {
+   height: 210vh;
+   background-color: rgb(32, 29, 29);
+   color: white;
+   background-image: url('../backPhotos/backgroundPrizes.png');
+   background-size: cover;
+   padding: 10px;
+   gap: 22px;
+   display: flex;
+   justify-content: first baseline;
+   align-items: center;
+   flex-direction: column;
+
+   section {
+     display: flex;
+     flex-direction: column;
+     margin-top: 8px;
+     height: 86%;
+     width: 90%;
+
+     .headline {
+       width: 100%;
+       background-color: rgba(53, 51, 51, 0.497);
+       border-radius: 8px;
+       padding-left: 8px;
+
+       h1 {
+         font-size: 4rem;
+         font-weight: 900;
+         color: goldenrod;
+       }
+
+       p {
+         font-weight: 100;
+       }
+
+       .link-prize {
+         color: goldenrod;
+         font-weight: bold;
+       }
+
+       span {
+         background-color: rgba(0, 0, 0, 0.503);
+         padding-right: 8px;
+         padding-left: 8px;
+         font-weight: 200;
+       }
+     }
+
+     .card-first3-blok {
+
+       width: 100%;
+       height: 60%;
+       display: flex;
+       justify-content: space-between;
+       flex-direction: column;
+       align-items: center;
+       padding: 16px;
+
+
+       .card1 {
+         position: relative;
+         display: flex;
+         width: 38%;
+         height: 48%;
+         border-radius: 15px;
+         justify-content: center;
+         align-items: center;
+         overflow: hidden;
+         box-shadow: -2px 2px 12px 0px rgba(255, 255, 255, 0.5);
+
+         .card-title1 {
+           color: gold;
+           font-weight: bold;
+           text-shadow: -4px 4px 2px rgba(0, 0, 0, 0.5);
+           font-size: 50px;
+           cursor: pointer;
+         }
+
+       }
+
+       .card2N3 {
+         width: 100%;
+         height: 50%;
+         display: flex;
+         align-items: center;
+         justify-content: space-evenly;
+       }
+
+       .cardMain2N3 {
+         position: relative;
+         display: flex;
+         justify-content: center;
+         align-items: center;
+         width: 30%;
+         height: 80%;
+         border-radius: 15px;
+         overflow: hidden;
+         background-color: inherit;
+         box-shadow: -2px 2px 12px 0px rgba(255, 255, 255, 0.5);
+       }
+
+     }
+
+     .card-text {
+       font-size: large;
+       font-weight: bold;
+       color: black;
+     }
+
+     .card-title2 {
+       color: silver;
+       font-weight: bold;
+       text-shadow: -4px 4px 2px rgba(0, 0, 0, 0.5);
+       font-size: 40px;
+     }
+
+     .cardInfo {
+       position: relative;
+       z-index: 2;
+       width: 100%;
+       text-align: center;
+       color: black;
+       background-color: rgba(200, 200, 200, 0.253);
+       border-radius: 5px;
+       cursor: pointer;
+     }
+
+     .card-blur-bg {
+       position: absolute;
+       top: 0;
+       left: 0;
+       right: 0;
+       bottom: 0;
+       background-size: 100% 100%;
+       background-position: center;
+       filter: grayscale(0.9);
+       z-index: 1;
+     }
+
+     .card-last2-blok {
+       width: 100%;
+       height: 64%;
+       display: flex;
+       align-items: first baseline;
+       justify-content: space-between;
+       flex-wrap: wrap;
+       padding-left: 18px;
+       padding-right: 18px;
+
+
+       .card4N5 {
+         position: relative;
+         display: flex;
+         justify-content: center;
+         align-items: center;
+         width: 26%;
+         height: 32%;
+         border-radius: 15px;
+         overflow: hidden;
+         background-color: inherit;
+         box-shadow: -2px 2px 12px 0px rgba(255, 255, 255, 0.5);
+       }
+
+       .users-table {
+         width: 100%;
+         height: 60%;
+         display: flex;
+         justify-content: center;
+         align-items: center;
+         flex-direction: column;
+
+         .top5 {
+           font-weight: 300;
+           text-shadow: -4px 1px 3px rgb(142, 140, 140);
+           color: goldenrod;
+         }
+
+         .the-table {
+           width: 56%;
+           height: 80%;
+           display: flex;
+           align-items: center;
+           justify-content: center;
+           flex-direction: column;
+           border-radius: 10px;
+           background-color: rgba(53, 51, 51, 0.497);
+           box-shadow: 0px 0px 12px 1px rgba(138, 136, 136, 0.5);
+         }
+       }
+
+     }
+
+     .card-blur-bg:hover {
+       filter: blur(2px);
+     }
+
+     .card1:hover {
+       box-shadow: -2px 2px 12px 0px rgba(255, 217, 0, 0.2);
+
+     }
+
+     .cardMain2N3:hover {
+       box-shadow: -2px 2px 12px 0px rgba(255, 217, 0, 0.2);
+
+     }
+
+     .card4N5:hover {
+       box-shadow: -2px 2px 12px 0px rgba(255, 217, 0, 0.2);
+
+     }
+
+   }
+ }
+
+ a {
+   text-decoration: none;
+ }
+
+ @media screen and (max-width: 768px) {
+   .blokPrize {
+     height: auto;
+     padding: 16px 8px;
+     gap: 16px;
+   }
+
+   .blokPrize section {
+     height: auto;
+     width: 100%;
+   }
+
+   .card-first3-blok,
+   .card-last2-blok {
+     flex-direction: column !important;
+     align-items: center !important;
+     gap: 20px;
+   }
+
+   .card1,
+   .cardMain2N3,
+   .card4N5 {
+     width: 90% !important;
+     height: 180px !important;
+     display: flex;
+     justify-content: center;
+     align-items: center;
+     overflow: hidden;
+     position: relative;
+     border-radius: 10px;
+   }
+
+   .card1 img,
+   .cardMain2N3 img,
+   .card4N5 img,
+   .card-blur-bg {
+     width: 100%;
+     height: 100%;
+     object-fit: cover;
+     /* תמונה תמלא את הכרטיס בלי עיוות */
+     position: absolute;
+     top: 0;
+     left: 0;
+     z-index: 1;
+   }
+
+   .card2N3 {
+     width: 92% !important;
+   }
+
+   .cardInfo,
+   .card-title1,
+   .card-title2 {
+     position: relative;
+     z-index: 2;
+     text-align: center;
+     font-size: 1.4rem;
+     color: white;
+   }
+
+
+   .the-table {
+     width: 98% !important;
+   }
+
+   .clock {
+     width: 94vw;
+   }
+ }

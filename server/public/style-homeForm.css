@@ -1,0 +1,254 @@
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+    font-family: Work Sans, sans-serif;
+}
+
+/* div {
+    border: 1px solid white
+} */
+
+body {
+    display: flex;
+    height: 100vh;
+    background-image: linear-gradient(hsl(243, 96%, 10%)70%, rgb(13, 13, 120));
+    color: white;
+    flex-direction: column;
+    align-items: center;
+    padding: 6px;
+    gap: 8px;
+}
+
+.sargel {
+    width: 99%;
+    height: 80px;
+    background: linear-gradient(to right, #04032e, #04032e, #487cff7e, #8f68ff, #fc72ff);
+    border-radius: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-left: 6px;
+    border-left: none;
+    border-right: none;
+
+
+    .logoSpot {
+        height: 98%;
+        width: 10%;
+        display: flex;
+        justify-content: left;
+        align-items: end;
+
+        img {
+            height: 96%;
+            width: 140px;
+            border-radius: 20px;
+        }
+    }
+
+    .nav-options {
+        display: flex;
+        width: 70%;
+        justify-content: space-between;
+        margin-left: 46px;
+        font-weight: 300;
+        font-size: large;
+
+        a {
+            text-decoration: none;
+            color: white;
+        }
+
+        a:nth-of-type(4) {
+
+            color: gold;
+
+        }
+    }
+
+    .nav-options>a:hover {
+        color: #fc72ff;
+
+    }
+
+    .off-screen-menu {
+        background-color: rgb(12, 15, 26);
+        height: 100vh;
+        width: 100%;
+        max-width: 280px;
+        position: fixed;
+        top: 0;
+        right: -450px;
+        display: flex;
+        flex-wrap: wrap;
+        flex-direction: column;
+        justify-content: center;
+        align-items: left;
+        text-align: left;
+        font-size: 1rem;
+        transition: .3s ease;
+        gap: 24px;
+        padding-top: 24px;
+        padding-left: 8px;
+        border-radius: 25px 0px 0px 25px;
+        border-left: 1px solid #fc72ff;
+        border-bottom: 1px solid #fc72ff;
+
+        .menu-options {
+            width: 100%;
+            height: 6%;
+            border-bottom: 1px solid #fc72ff;
+            border-bottom-left-radius: 26px;
+            padding-left: 7px;
+            cursor: pointer;
+            text-align: center;
+            font-weight: 300;
+            color: white;
+            text-decoration: none;
+        }
+
+        .menu-options:nth-child(5) {
+            color: rgb(255, 0, 0)
+        }
+
+        .menu-options:hover {
+            color: #487bff;
+        }
+
+    }
+
+    .off-screen-menu.active {
+        right: 0;
+    }
+
+    .nav-settings {
+        font-size: 2.6rem;
+        font-weight: 100;
+        cursor: pointer;
+        position: relative;
+        color: black;
+        text-align: center;
+    }
+
+}
+
+.form-box {
+    box-shadow: -1px 6px 8px 1px rgba(0,0,0,0.33);
+    border-radius: 5px;
+    width: 720px;
+    height: 580px;
+    background-color: #4f4f4f20;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    justify-content: space-around;
+    padding: 4px;
+    backdrop-filter: blur(100px);
+
+    h2{
+        background: linear-gradient(to right, #d72fda, #5021dc, #194fd6);
+        width: 100%;
+        text-align: center;
+        color: gold;
+    }
+
+    form{
+        width: 100%;
+        height: 100%;
+        padding: 0;
+    }
+    .games {
+        width: 100%;
+        height: 82%;
+        display: flex;
+        justify-content: space-around;
+        flex-direction: column;
+        align-items: center;
+
+        .game {
+            width: 96%;
+            height: 18%;
+            border-bottom: 1px solid  #d72fda;
+            background-color: #3e3e4428;
+            border-radius: 5px;
+            text-transform: uppercase;
+            display: flex;
+            padding: 4px;
+            gap: 10px;
+            align-items: center;
+            font-weight: 300;
+            
+            .matchName{
+                border: 1px solid yellow;
+                width: 60%;
+                height: 100%;
+                text-align: center;
+                font-weight: 200;
+                color: yellow;
+            }
+        
+            .resAndScore{
+                border-right: 1px solid #fc72ff;
+                border-left: 1px solid #8f68ff;
+                width: 14%;
+                height: 100%;
+                display: flex;
+                text-align: center;
+                flex-direction: column;
+                font-size: small;
+               
+                .answer{
+                    font-size: 3rem;
+                    border: 1px solid skyblue;
+                    height: 80%;
+                    text-align: center;
+                }
+            }
+           .deletePoint{
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            align-content: space-around;
+            justify-content: center;
+            flex-direction: column;
+            width: 6%;
+            height: 100%;
+           }
+            .delete{
+                width: 24px;
+                height: 24px;
+                cursor: pointer;
+                border-radius: 50%;
+                font-size: small;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                background-color: brown;
+                align-self: first baseline;
+                box-shadow: -1px 6px 8px 1px rgba(0,0,0,0.33);
+            }
+        }
+    }
+    .totals{
+        width: 96%;
+        height: 30px;
+        display: flex;
+        justify-content: space-evenly;
+        align-items: center;
+        font-weight: 300;
+    }
+    .sendButton{
+        background-color: rgb(93, 186, 0);
+        padding: 14px 24px;
+        border-radius: 5px;
+        font-size: large;
+        font-weight: 500;
+        cursor: pointer;
+        color: white;
+        border: none;
+    }
+    .sendButton:hover{
+        background-color: rgba(128, 255, 0, 0.87);
+    }
+}

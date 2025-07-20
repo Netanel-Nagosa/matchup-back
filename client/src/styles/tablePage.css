@@ -1,0 +1,198 @@
+.main {
+  height: 110vh;
+  display: flex;
+  padding: 16px;
+  flex-direction: column;
+  align-items: center;
+  gap: 40px;
+  background-image: url('../backPhotos/backgroundAbout.png');
+  color: white;
+
+  .searchUser {
+    width: 50%;
+    height: 20%;
+    display: flex;
+    justify-content: space-between;
+    flex-direction: column;
+    text-align: center;
+    background-color: #6c6c6c33;
+    border-radius: 8px;
+    padding: 8px;
+    box-shadow: -1px 6px 8px 1px rgba(0, 0, 0, 0.33);
+
+    h1 {
+      background: linear-gradient(to right, gold, goldenrod, rgb(105, 80, 15));
+      background-size: 200%;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .searchUser-result {
+      height: 70%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-radius: 8px;
+      background-color: #00000062;
+      padding-bottom: 6px;
+      margin-top: 4px;
+      color: goldenrod;
+
+      .rank {
+        width: 10%;
+        height: 100%;
+        text-align: center;
+        border-right: 1px solid rgb(178, 178, 178);
+        font-size: 1.4rem;
+      }
+
+      .name {
+        width: 45%;
+        height: 100%;
+        text-align: center;
+        border-right: 1px solid rgb(178, 178, 178);
+        font-size: 1.4rem;
+      }
+
+      .points {
+        width: 45%;
+        height: 100%;
+        text-align: center;
+        font-size: 1.4rem;
+      }
+    }
+
+  }
+
+  .topUsers {
+    width: 50%;
+    height: 450px;
+    border: 1px solid rgb(35, 3, 64);
+    border-radius: 8px;
+    background-color: #5a57579b;
+    margin: 0 auto;
+    flex-direction: column;
+    text-align: center;
+    box-shadow: -1px 6px 8px 1px rgba(0, 0, 0, 0.33);
+
+    h2 {
+      font-size: 3rem;
+      background: linear-gradient(to right, gold, goldenrod, rgb(105, 80, 15));
+      color: black;
+      border-radius: 5px;
+      font-weight: 400;
+    }
+
+    .usersNames {
+      border: 1px solid rebeccapurple;
+      height: 80%;
+      text-align: left;
+      padding-left: 4px;
+    }
+
+    .scroll-container {
+      height: 336px;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .scroll-content {
+      display: flex;
+      flex-direction: column;
+      animation: scrollUp 20s linear infinite;
+    }
+
+    .player-row {
+      display: flex;
+      justify-content: space-between;
+      padding: 8px 12px;
+      font-size: 18px;
+      border-bottom: 1px solid gray;
+    }
+
+    .playersTable {
+      width: 100%;
+
+      th {
+        border-bottom: 1px solid rgb(0, 0, 0);
+        font-size: larger;
+        width: 33%;
+        padding-bottom: 8px;
+      }
+
+      th:nth-child(1) {
+        width: 20%;
+      }
+
+      th:nth-child(2) {
+        border-left: 1px solid #000000;
+        border-right: 1px solid #000000;
+        width: 60%;
+      }
+
+      th:nth-child(3) {
+        width: 20%;
+      }
+    }
+
+    span:nth-child(1) {
+      height: 100%;
+      width: 20%;
+    }
+
+    span:nth-child(2) {
+      border-left: 1px solid black;
+      border-right: 1px solid black;
+      height: 100%;
+      width: 60%;
+    }
+
+    span:nth-child(3) {
+      height: 100%;
+      width: 20%;
+    }
+  }
+}
+
+input.custom-input {
+  width: 100%;
+  padding: 4px 4px;
+  font-size: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  background-color: #f9f9f9;
+  transition: 0.3s ease;
+  outline: none;
+}
+
+input.custom-input:focus {
+  box-shadow: 0 0 5px rgb(255, 255, 255);
+  background-color: #fff;
+}
+
+@keyframes scrollUp {
+  0% {
+    transform: translateY(0);
+  }
+
+  100% {
+    transform: translateY(-50%);
+  }
+}
+
+@media screen and (max-width: 768px) {
+
+  .searchUser {
+    width: 85% !important;
+    height: 15% !important;
+    margin-top: 70px;
+  }
+
+  .name {
+    font-size: 1rem !important;
+  }
+
+  .topUsers {
+    width: 80% !important;
+  }
+}

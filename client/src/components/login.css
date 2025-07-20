@@ -1,0 +1,65 @@
+.form_container{
+    width: 30%;
+}
+.login,.signup{
+  background-image: linear-gradient(rgba(10, 10, 10, 0.5), rgba(10, 10, 10, 0.5)),url('../backPhotos/backgroundLogin.png');
+  background-size: cover;
+  background-position: center;
+  color: white;
+}
+.formBody{
+  background: linear-gradient(45deg, #05050575 0%, #000000 63%, #494949 100%);background-color: black;
+  height: 84%;
+}
+
+/* רספונסיביות לפלאפון */
+@media (max-width: 480px) {
+  .login.template {
+    padding: 1rem;
+    height: auto;
+    min-height: 100vh;
+  }
+
+  .form_container {
+    width: 100%;
+    padding: 1.5rem;
+    box-shadow: none;
+    border-radius: 8px;
+  }
+
+  .form_container h3 {
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+  }
+
+  .form_container label {
+    font-size: 0.9rem;
+  }
+
+  .form_container input[type="text"],
+  .form_container input[type="password"] {
+    font-size: 1rem;
+    padding: 0.5rem;
+  }
+
+  .form_container .btn {
+    font-size: 1rem;
+    padding: 0.5rem;
+  }
+
+  /* התאמה לטקסטים ולינקים */
+  .form_container p {
+    font-size: 0.9rem;
+    text-align: center;
+  }
+
+  .form_container p a {
+    font-size: 0.9rem;
+  }
+
+  /* תיקון האייקון */
+  .form_container svg {
+    width: 30px !important;
+    height: 30px !important;
+  }
+}

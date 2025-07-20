@@ -1,0 +1,237 @@
+.form {
+    background-image: url(../backPhotos/backgroundForms.png);
+    background-size: 100% 100%;
+    color: white;
+    padding-top: 16px;
+    padding-bottom: 16px;
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    height: 100vh;
+}
+
+.form-box {
+    box-shadow: -1px 6px 8px 1px rgba(0, 0, 0, 0.33);
+    border-radius: 5px;
+    width: 50%;
+    height: 90%;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    justify-content: space-around;
+    padding: 4px;
+    backdrop-filter: blur(10px);
+
+    h2 {
+        background: linear-gradient(to right, gold, goldenrod, rgb(105, 80, 15));
+        width: 100%;
+        text-align: center;
+        color: black;
+    }
+
+    form {
+        width: 100%;
+        height: 100%;
+        padding: 0;
+    }
+
+    .games {
+        width: 100%;
+        height: 82%;
+        display: flex;
+        justify-content: space-around;
+        flex-direction: column;
+        align-items: center;
+
+        .game {
+            width: 96%;
+            height: 18%;
+            border-bottom: 1px solid rgba(123, 123, 123, 0.573);
+            display: flex;
+            gap: 10px;
+            align-items: center;
+            font-weight: 300;
+
+            .matchName {
+
+                width: 60%;
+                height: 90%;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                font-weight: 200;
+                color: gold;
+            }
+
+            .resAndScore {
+                border-top: 1px solid gold;
+                width: 14%;
+                height: 100%;
+                display: flex;
+                align-items: center;
+                flex-direction: column;
+                font-size: small;
+                
+                .answer {
+                    font-size: 2.6rem;
+                    border-top: 1px solid goldenrod;
+                    height: 70%;
+                    width: 90%;
+                    text-align: center;
+                }
+            }
+
+            .deletePoint {
+                display: flex;
+                flex-wrap: wrap;
+                align-items: center;
+                align-content: space-around;
+                justify-content: center;
+                flex-direction: column;
+                width: 6%;
+                height: 100%;
+            }
+
+            .delete {
+                width: 24px;
+                height: 24px;
+                cursor: pointer;
+                border-radius: 50%;
+                font-size: small;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                background-color: brown;
+                align-self: first baseline;
+                box-shadow: -1px 6px 8px 1px rgba(0, 0, 0, 0.33);
+            }
+        }
+    }
+
+    .totals {
+        width: 96%;
+        height: 6%;
+        display: flex;
+        justify-content: space-evenly;
+        align-items: center;
+        font-weight: 300;
+    }
+
+    .sendButton {
+        width: 100%;
+        background-color: #198754;
+        padding: 12px;
+        border-radius: 5px;
+        font-size: large;
+        font-weight: 500;
+        cursor: pointer;
+        color: white;
+        border: none;
+    }
+
+    .sendButton:hover {
+        background-color: #10b166;
+    }
+}
+
+/* Existing styles remain unchanged */
+
+@media screen and (max-width: 768px) {
+  .form {
+    padding: 8px;
+    background-size: cover;
+    height: 75vh;
+  }
+
+  .form-box {
+        width: 95%;
+        padding: 12px;
+        height: 35%;
+    }
+
+  .form-box h2 {
+    font-size: 1.2rem;
+    padding: 8px 0;
+  }
+
+  .form-box form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+  }
+
+  .form-box .games {
+    height: auto;
+    gap: 12px;
+  }
+
+  .form-box .game {
+    flex-direction: column;
+    height: auto;
+    align-items: flex-start;
+    gap: 6px;
+  }
+
+  .form-box .matchName {
+    width: 100%;
+    text-align: center;
+    font-size: 1rem;
+  }
+
+  .form-box .resAndScore {
+    width: 100%;
+    flex-direction: row;
+    justify-content: space-between;
+    font-size: 0.9rem;
+  }
+
+  .form-box .resAndScore .answer {
+    font-size: 1.6rem;
+    width: 48%;
+  }
+
+  .form-box .deletePoint {
+    width: 100%;
+    justify-content: flex-end;
+  }
+
+  .form-box .totals {
+    font-size: 1rem;
+    flex-direction: column;
+    height: auto;
+  }
+
+  .form-box .sendButton {
+    font-size: 1rem;
+    padding: 10px;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .games .game .answer {
+    font-size: small !important ;
+  }
+
+  .games .game .matchName {
+    font-size: small;
+  }
+
+  .form-box .resAndScore {
+    font-size: 1.4rem;
+  }
+
+  .form-box .sendButton {
+    font-size: 0.9rem;
+  }
+
+  .form-box h2 {
+    font-size: 1rem;
+  }
+
+  .games .game {
+    flex-direction: row;
+    height: 22% !important;
+  }
+}
+
