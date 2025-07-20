@@ -1,12 +1,11 @@
 {
-  
-    "name": "matchup",
-    "scripts": {
-      "start": "concurrently \"npm run server\" \"npm run client\"",
-      "server": "cd server && npm start",
-      "client": "cd client && npm start"
-    },
-  
+  "name": "matchup",
+  "scripts": {
+    "install-all": "cd server && npm install && cd ../client && npm install",
+    "start": "concurrently \"npm run server\" \"npm run client\"",
+    "server": "cd server && npm start",
+    "client": "cd client && npm start"
+  },
   "dependencies": {
     "concurrently": "^9.1.2"
   }
