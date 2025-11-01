@@ -7,41 +7,6 @@ const { Sequelize } = require('sequelize');
 const resetDateModel = require("../resetdate")
 const { differenceInCalendarMonths } = require('date-fns');
 
-// const sendMail = async (req, res) => {
-//     const { username, thePrize } = req.body;
-
-//     try {
-//         const winnerEmail = await getEmail(username);
-//         if (!winnerEmail) {
-//             return res.status(404).json({ msg: "Email not found" });
-//         }
-
-//         const transporter = nodemailer.createTransport({
-//             service: 'gmail',
-//             auth: {
-//                 user: 'nagosa1233211@gmail.com',
-//                 pass: 'keha avyu zlrr fuci'
-//             }
-//         });
-
-//         const mailOptions = {
-//             from: 'nagosa1233211@gmail.com',
-//             to: winnerEmail,
-//             subject: `HELLO, ${username}! YOUR PRIZE!`,
-//             text: `Congratulations, ${username}! You've won ${thePrize} 🎉`
-//         };
-
-//         const info = await transporter.sendMail(mailOptions);
-//         console.log("Email sent >>>", info.response);
-//         return res.json({ sent: "Email sent", info: info.response });
-
-//     } catch (err) {
-//         console.error("Error sending email:", err);
-//         return res.status(500).json({ msg: "Failed to send email" });
-//     }
-// };
-
-
 const updatePrizes = async (req, res) => {
     const { player, id } = req.body;
     if (!player || !id)
@@ -76,7 +41,7 @@ const updatePrizes = async (req, res) => {
             }
         }
     } catch (error) {
-        console.error("Error line 24 PS:", error);
+        console.error("Error line 58 PS:", error);
         res.sendStatus(500);
     }
 }
@@ -93,15 +58,16 @@ const getWinners = async (req, res) => {
 const notCollectedYet = async (req, res) => {
     const { username } = req.body;
     try {
-        const winners = await prizeModel.findAll({
+        const winner = await prizeModel.findOne({
             where: {
-                active: 1
+                active: 1,
+                winner: username
             }
         });
 
-        const userCollect = winners.find(f => f.winner === username && f.active === 1);
+        // const userCollect = winners.find(f => f.winner === username && f.active === 1);
 
-        if (userCollect) {
+        if (winner) {
             return res.json({ prize: "prize waiting for", username });
         }
 
@@ -110,42 +76,6 @@ const notCollectedYet = async (req, res) => {
         return res.status(404).json({ problem: "Problem in getWinners 33l" });
     }
 };
-
-
-
-// const counterActives = async (req, res) => {
-//     try {
-
-//         const activeWinner = await prizeModel.count({
-//             where: {
-//                 active: 1
-//             }
-//         });
-
-//         if (activeWinner === 0) {
-//             const updated = await prizeModel.update(
-//                 { winner: null, isWinner: false, active: 1 },
-//                 { where: {} }
-//             );
-
-//             if (updated[0] > 0) {
-//                 console.log("Set to the begginnig.");
-//                 return res.status(200).send({ good: "all good , Set to the begginnig." });
-//             } else {
-//                 console.log("problem at updateing: 109 ");
-//                 return res.status(404).send({ problem: "problem 111  , bc" });
-//             }
-//         }
-
-//         else {
-//             return res.send({ problem: "you dont have a 5 active winners yet." });
-
-//         }
-//     } catch (error) {
-//         console.error("Error line 24 PS:", error);
-//         res.sendStatus(500);
-//     }
-// }
 
 const collectPrize = async (req, res) => {
     const { username, id } = req.body;
@@ -222,10 +152,12 @@ const checkDate = async (req, res) => {
             return res.json({ resetNewLine: "new line was made." });
         }
 
-        const lastResetDate = state.lastResetDate;
+        const lastResetDate = new Date(state.lastResetDate);
         const now = new Date();
-        // now.setMonth(now.getMonth() + 1); לצורכי בדיקה <<<<
-
+        // now.setMonth(now.getMonth() + 1);
+        console.log("NOW:", now);
+        console.log("LAST RESET:", lastResetDate);
+        console.log("DIFFERENCE:", differenceInCalendarMonths(now, lastResetDate));
         if (differenceInCalendarMonths(now, lastResetDate) >= 1) {
             await prizeModel.update(
                 {

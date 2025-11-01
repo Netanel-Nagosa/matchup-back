@@ -217,7 +217,7 @@ const upsetPointsONnewMonth = async (req, res) => {
         { points: 0 },
         { where: { id: { [Op.gt]: 0 } } }
     );
-    if (usersPoints > 0)
+    if (usersPoints > 0 )
         return res.send({ good: "all goes down to 0 !" })
     else
         return res.send({ problem: "theres a problem 221line" });

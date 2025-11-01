@@ -147,7 +147,7 @@ function AppContent() {
             <div className='row d-flex justify-content-evenly'>
               <div>
                 <p>
-                  All rights reserved to Netanel Nagosa and Sharon Rada. This site is not a gambling website. Free access. For phone assistance: *4455 (not available on Shabbat).
+                  All rights reserved to Netanel Nagosa and Sharon Rada. This site is not a gambling website. Free access. For phone assistance: *4455 (not available on Saturday).
                 </p>
               </div>
             </div>

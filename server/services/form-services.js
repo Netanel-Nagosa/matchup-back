@@ -56,7 +56,6 @@ const getForm = async (req, res) => {
         const form = await formModel.findAll({
             where: {
                 username: username,
-                // active: 1
             },
             order: [['id', 'DESC']] // מביא את הטופס עם ה-ID הכי גבוה
         });
@@ -137,21 +136,5 @@ const getPastForms = async (req, res) => {
         console.log("you have some error on get names func:: ", error);
     };
 }
-// const setPoints = async (req, res) => {
-//     const { username, points } = req.body;
-//     try {
-//         const updated = await userModel.update(
-//             { points },
-//             { where: { username: username, active: 1 } }
-//         );
-
-//         return res.json({ msg: "update points succesfuly .",updated});
-
-//     }
-//     catch (error) {
-//         console.log("you have some error on get names func:: ", error);
-//     };
-
-// }
 
 module.exports = { addMatches, getForm, winCheck, getPastForms };

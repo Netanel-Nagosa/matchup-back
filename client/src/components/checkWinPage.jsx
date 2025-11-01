@@ -40,7 +40,7 @@ function CheckWinPage() {
       .then(response => response.json())
       .then(data => {
         if (!data || data.length === 0) {
-          console.log("No form found for this user, stopping further processing.");
+          // console.log("No form found for this user, stopping further processing.");
           setFormData({}); // או להשאיר ריק או לסמן שלא קיים טופס
           return;
         }
@@ -78,6 +78,7 @@ function CheckWinPage() {
 
 
   }, [formData]);
+  
   console.log("points > ", points)
   const teamNameFixes = {
     "Basaksehir": "Istanbul Basaksehir",
@@ -123,7 +124,16 @@ function CheckWinPage() {
     "Amazonas FC": "Amazonas",
     "Grêmio Novorizontino": "Novorizontino",
     "KuPS Kuopio": "KuPS",
-    "Botafogo": ["Botafogo-SP", "Botafogo"],
+    "Newells Old Boys": "Newell's Old Boys",
+    // "Botafogo": "Botafogo-SP",
+    "Talleres": "Talleres de Córdoba",
+    "Belgrano de Cordoba": "Belgrano",
+    "Ħamrun Spartans FC": "Ħamrun Spartans",
+    "Pafos FC": "Pafos",
+    "SV Zulte-Waregem": "Zulte Waregem",
+    "Atlanta United FC": "Atlanta United",
+    "Leuven": "Oud-Heverlee Leuven",
+    "Minnesota United FC": "Minnesota United",
   };
 
   const tryFetchTeamId = async (teamName) => {
@@ -154,14 +164,14 @@ function CheckWinPage() {
       for (const team of homeTeamNames) {
         const fixedTeam = teamNameFixes[team] || team;
 
-        const encodedTeam = encodeURIComponent(fixedTeam);
+        // const encodedTeam = encodeURIComponent(fixedTeam);
         // console.log("fixed N encoded ", encodedTeam)
         try {
           const fullTeamName = fixedTeam;
           let teamId = await tryFetchTeamId(fullTeamName);
 
           if (!teamId) {
-            // אם לא נמצא לפי השם המלא – ננסה לפי מילה בודדת
+            // אם לא נמצא לפי השם המלא אזז לפי מילה בודדת
             const words = fullTeamName.split(" ");
             if (words.length > 1) {
               const partialTeamName = words[words.length - 1]; // ניקח את המילה האחרונה
@@ -169,6 +179,7 @@ function CheckWinPage() {
             }
           }
           if (teamId) {
+
             newIds.push(teamId);
           } else {
             console.error(`Team not found: ${fullTeamName}`);

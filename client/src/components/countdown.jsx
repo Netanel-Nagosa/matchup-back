@@ -39,6 +39,17 @@ function Countdown() {
     }
 
     useEffect(() => {
+        // fetch('http://localhost:8081/auth/resetFromPastMonth', {
+        //     method: 'PUT'
+        // })
+        //     .then((response) => response.json())
+        //     .then((data) => {
+        //         if (data.good) {
+        //             console.log("CHECKING DATE >> : ", data.good)
+        //             setIsMonthEnded(true);
+        //         }
+        //     })
+        //     .catch(error => console.error('Error fetching data:', error));
 
         fetch('http://localhost:8081/auth/checkDate', {
             method: 'PUT'
@@ -51,7 +62,7 @@ function Countdown() {
                 }
                 else {
                     setIsMonthEnded(false);
-                    console.log("P R O B L E M : on updating to 0 >>", data)
+                    console.log("P R O B L E M :", data)
 
                     fetch('http://localhost:8081/auth/notCollectedYet', {
                         method: "POST",
@@ -62,14 +73,14 @@ function Countdown() {
                     })
                         .then((response) => response.json())
                         .then((data) => {
-                            if(data.prize){
-                                console.log("SENDING PRIZE ... ",data)
+                            if (data.prize) {
+                                console.log("SENDING PRIZE ... ", data)
                                 setIsMonthEnded(true);
                             }
-                            else{
+                            else {
                                 console.log(data.msg)
                             }
-                                
+
                         })
                         .catch(error => console.error('Error fetching data:', error));
                 }
@@ -89,19 +100,19 @@ function Countdown() {
                 setTimeout(() => {
                     const nextMonth = getNextMonthDate();
                     setEndOfMonth(nextMonth);
-                    // setIsMonthEnded(false);
+                    setIsMonthEnded(false);
 
-                    //             fetch('http://localhost:8081/auth/zeroPoints', {
-                    //                      method: 'PUT'
-                    //                  })
-                    //                 .then((response) => response.json())
-                    //                 .then((data) => {
-                    //                     if(data.good)
-                    //                         console.log(">>> ", data.good)
-                    //                     else
-                    //                     console.log("P R O B L E M : on updating to 0 >>",data)
-                    //                 })
-                    //                 .catch(error => console.error('Error fetching data:', error));
+                    fetch('http://localhost:8081/auth/zeroPoints', {
+                        method: 'PUT'
+                    })
+                        .then((response) => response.json())
+                        .then((data) => {
+                            if (data.good)
+                                console.log(">>> ", data.good)
+                            else
+                                console.log("P R O B L E M : on updating to 0 points >>", data)
+                        })
+                        .catch(error => console.error('Error fetching data:', error));
                 }, 2000);
             } else {
                 setDays(Math.floor(diff / (1000 * 60 * 60 * 24)));
@@ -179,7 +190,7 @@ function Countdown() {
 
                 for (const item of data) {
                     if (item.winner !== username) {
-                        console.log("counterActive >>> ", counterActive+" , "+username+" / "+item.winner);
+                        console.log("counterActive >>> ", counterActive + " , " + username + " / " + item.winner);
                         counterActive++;
                     } else {
                         console.log("עצירה כי יש התאמה");
@@ -214,7 +225,6 @@ function Countdown() {
     isWinner = 0,
     active=1
     where id>0 */
-
     return (
         <div className='clock' >
             <h3 className='until'>Until the next prize giveaway!🎁 </h3>
@@ -244,39 +254,6 @@ function Countdown() {
                                 .then(response => response.json())
                                 .then(data => {
                                     console.log("EL FINALE >> ", data);
-                                    if (data.good) {
-                                        // let thePrize = rewards[counterMail].name
-                                        // fetch('http://localhost:8081/auth/sendMail', {
-                                        //     method: "POST",
-                                        //     headers: {
-                                        //         "Content-Type": "application/json"
-                                        //     },
-                                        //     body: JSON.stringify({ username, thePrize })
-                                        // })
-                                        //     .then(response => response.json())
-                                        //     .then(data => {
-                                        //         console.log("EMAIL STATUS >>>> ", data)
-                                        //         if (data.sent) {
-                                        //             console.log("data was sent .")
-                                        // fetch('http://localhost:8081/auth/counterActives', {
-                                        //     method: "PUT",
-                                        //     headers: {
-                                        //         "Content-Type": "application/json"
-                                        //     }
-                                        // }).then(res => { return res.json() })
-                                        //     .then(data => {
-                                        //         if (data.good) {
-                                        //             console.log("all good at the end >> ", data.good)
-                                        //         }
-                                        //         else {
-                                        //             console.log("a problam ", data.problem)
-                                        //         }
-                                        //         console.log("W T F !?????")
-                                        //     })
-                                        //     }
-                                        // })
-                                        // .catch(error => console.error('Error fetching data:', error));
-                                    }
                                 })
                                 .catch(error => console.error('Error fetching data of FINALE:', error));
 
