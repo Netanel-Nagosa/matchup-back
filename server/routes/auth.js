@@ -14,6 +14,7 @@ router.post("/homeForm",formServices.addMatches );
 router.post("/get-form",formServices.getForm );
 router.post("/get-past-forms",formServices.getPastForms );
 router.post("/checkWin",formServices.winCheck );
+router.post("/ai-tip",formServices.aitip );
 router.post("/homeMatches",betsServices.addBet );
 router.post("/showbets",betsServices.showbets);
 router.post("/update-prizes-winners",prizeServices.updatePrizes);

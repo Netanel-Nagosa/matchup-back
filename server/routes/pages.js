@@ -31,8 +31,8 @@ router.use('/register',checkToken,(req, res) => {
     res.render("register");
 });
 
-router.use('/', checkToken,(req, res) => {
-    res.render("matchup");
-});
+// router.use('/', checkToken,(req, res) => {
+//     res.render("matchup");
+// });
 
 module.exports = router;

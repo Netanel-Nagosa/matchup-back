@@ -2,11 +2,14 @@ import React, { useState, useEffect } from 'react';
 import Pagination from './pagination';
 import backgroundImage from '../backPhotos/backgroundGameNotChosen.png';
 import Swal from 'sweetalert2';
+import { DiCodeigniter } from "react-icons/di";
 
 function LeaguePage({ leagueKey, leagueTitle }) {
   const [games, setGames] = useState([]);
+  const [predictions, setPredictions] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const gamesPerPage = 6;
+
 
   const loggedUserString = localStorage.getItem('logedName');
   const loggedUser = loggedUserString ? JSON.parse(loggedUserString) : null;
@@ -127,25 +130,86 @@ function LeaguePage({ leagueKey, leagueTitle }) {
       .join(' ');
   }
 
+  const handleAITip = async (home, away) => {
+    try {
+      const response = await fetch("http://localhost:8081/auth/ai-tip", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ home, away }),
+      });
+
+      if (!response.ok) {
+        const text = await response.text();
+        throw new Error(`Server error: ${response.status} ${text}`);
+      }
+
+      const data = await response.json();
+
+      // שמור את התחזית
+      setPredictions(data.tip);
+      console.log("THE TIP:", data.tip);
+
+      const score1 = 'score';
+      const prediction = 'prediction';
+      const confidence = 'confidence';
+      const text = 'text';
+      const tip = JSON.parse(data.tip);
+      // הצג את החלון רק אחרי שקיבלת נתונים
+      Swal.fire({
+        icon: "info",
+        iconColor: "goldenrod",
+        background: "black",
+        html: `
+        <b>Prediction:</b> ${tip.prediction}<br>
+        <b>Score:</b> ${tip.score}<br>
+        <b>Confidence:</b> ${tip.confidence}<br>
+        <b>Explanation:</b> ${tip.text}
+      `,
+        color: "white",
+        confirmButtonColor: "goldenrod",
+        showCancelButton: false,
+        confirmButtonText: "OK",
+      });
+    } catch (err) {
+      console.error("AI tip failed:", err);
+      Swal.fire({
+        icon: "error",
+        text: "התרחשה שגיאה בקבלת ההמלצה. נסה שוב מאוחר יותר.",
+        confirmButtonColor: "goldenrod",
+      });
+    }
+  };
+
+
   return (
     <>
       <div className="lgp container-fluid ">
         <div className='h2Div'>
           <h2 style={{ textTransform: 'capitalize' }}>{leagueTitle}</h2>
         </div>
-        {!games || games.length === 0? (
+        {!games || games.length === 0 ? (
           <div className="noGames">
-           NO GAMES SOON ..
+            NO GAMES SOON ..
           </div>
         ) : (
           formattedGames.map((item, i) => (
             <div key={i} className="card shadow p-3 mb-5 col-4 m-auto" >
               <div className="card-body text-center" >
-                <div className="title p-1 rounded-1 bgTitleTime mb-5">
+                <div className="title p-1 rounded-1 bgTitleTime mb-4">
                   <h5>{item.sport_title}</h5>
                   <h6>{item.formattedTime}</h6>
                 </div>
+                <div className="hamlatza">
+                  <div
+                    className="hamlatza-tip"
+                    onClick={() => {
+                      handleAITip(item.home_team, item.away_team);
+                    }}
+                  >
+                    TIP <DiCodeigniter />
+                  </div>
 
+                </div>
                 <div className="games row d-flex justify-content-evenly w-100">
                   <div className="class30">
                     <label htmlFor="home_team"><span>{toTitleCase(item.home_team)}</span></label>

@@ -27,14 +27,14 @@
     align-items: flex-end;
     height: 100px;
     gap: 10px;
-    margin-top: auto;
+    margin-bottom: 5px;
     /* כדי "לדחוף" אותו לתחתית הכרטיס */
 
 }
 
 .card {
     width: 26%;
-    height: 242px;
+    height: 38%;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -61,7 +61,24 @@
     }
 
 }
-
+.hamlatza{
+    text-shadow: 1px 1px red;
+    font-size: 1.2rem;
+    color: gold;
+    display: flex;
+    justify-content: center;
+    .hamlatza-tip{
+        border: 1px solid gold;
+        border-radius: 5px;
+        width: 30%;
+        padding: 2px;
+        cursor: pointer;
+        backdrop-filter: blur(8px);
+    }
+    .hamlatza-tip:hover{
+        background-color: #050505;
+    }
+}
 .class30 {
     width: 30%;
     display: flex;
