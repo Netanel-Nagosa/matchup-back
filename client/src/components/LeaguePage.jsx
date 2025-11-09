@@ -4,12 +4,12 @@ import backgroundImage from '../backPhotos/backgroundGameNotChosen.png';
 import Swal from 'sweetalert2';
 import { DiCodeigniter } from "react-icons/di";
 
+
 function LeaguePage({ leagueKey, leagueTitle }) {
   const [games, setGames] = useState([]);
   const [predictions, setPredictions] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const gamesPerPage = 6;
-
 
   const loggedUserString = localStorage.getItem('logedName');
   const loggedUser = loggedUserString ? JSON.parse(loggedUserString) : null;
@@ -79,7 +79,7 @@ function LeaguePage({ leagueKey, leagueTitle }) {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const res = await fetch(`https://api.the-odds-api.com/v4/sports/${leagueKey}/odds?regions=us&oddsFormat=american&apiKey=7c71038a3296a0a182b96b0e227ae440`);
+        const res = await fetch(`/api/odds/${leagueKey}`);
         const data = await res.json();
         const now = new Date();
         const threeDaysFromNow = new Date();

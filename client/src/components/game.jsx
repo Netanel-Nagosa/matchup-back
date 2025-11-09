@@ -6,15 +6,24 @@ export default function Game() {
   const [leagues, setLeagues] = useState([]);
   const [selectedLeague, setSelectedLeague] = useState({ key: "", title: "" });
 
+  const fetchSoccerLeagues = async () => {
+    try {
+      const res = await fetch(`/api/sports`);
+      const data = await res.json();
+
+      const soccerTitles = Object.values(data)
+        .filter(el => el && el.group === "Soccer")
+        .sort((a, b) => a.title.localeCompare(b.title));
+
+      setLeagues(soccerTitles);
+    } catch (err) {
+      console.error("Error fetching soccer leagues:", err);
+    }
+  };
+
+  // ואז לקרוא לפונקציה
   useEffect(() => {
-    fetch(`https://api.the-odds-api.com/v4/sports/?daysFrom=1&apiKey=0613db6638dbe8a7727b4d16ca62bca1`)
-      .then(res => res.json())
-      .then(data => {
-        const soccerTitles = Object.values(data)
-          .filter(el => el && el.group === "Soccer")
-          .sort((a, b) => a.title.localeCompare(b.title));
-        setLeagues(soccerTitles); 
-      });
+    fetchSoccerLeagues();
   }, []);
 
   const handleChange = (e) => {
@@ -26,15 +35,15 @@ export default function Game() {
         title: selectedOption.title,
       });
     }
-    console.log("selected leg KEY : ",selectedLeague)
+    console.log("selected leg KEY : ", selectedLeague)
   };
-  
+
   return (
     <div className="gameBox">
       <div className='App'>
         <select className="selectDiv" onChange={handleChange} defaultValue="">
           <option value="" disabled>Select League / Competition ..</option>
-          { leagues.map((league) => (
+          {leagues.map((league) => (
             <option key={league.key} value={league.key}>
               {league.title}
             </option>
