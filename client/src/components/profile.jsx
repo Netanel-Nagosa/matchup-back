@@ -49,7 +49,8 @@ function Profile() {
                         color: 'goldenrod',
                         background: 'black',
                         showConfirmButton: false,
-                    }).then(() => forceRerender());
+                    })
+                    //.then(() => forceRerender());
                 }
             })
             .catch(err => console.log(err));
@@ -87,7 +88,8 @@ function Profile() {
                         color: 'goldenrod',
                         background: 'black',
                         showConfirmButton: false,
-                    }).then(() => forceRerender());
+                    })
+                    //.then(() => forceRerender());
                 }
             })
             .catch(err => console.log(err));
