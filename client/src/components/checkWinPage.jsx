@@ -443,7 +443,7 @@ function CheckWinPage() {
                 <div className="past-form-blok">
                   {
                     check === false ? (
-                      pastForms.length > 0 && pastForms.slice().reverse().map((form, index) => {
+                      pastForms.length > 0 && pastForms.slice().reverse().filter(form => check === false || form.won).map((form, index) => {
                         console.log("len >>>>>>>>>>>> " + pastForms.length);
 
                         const s = form['created_at'];
