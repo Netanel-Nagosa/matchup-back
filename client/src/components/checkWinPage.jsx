@@ -4,10 +4,10 @@ import { Link, useNavigate } from 'react-router-dom';
 import Swal from 'sweetalert2';
 
 function CheckWinPage() {
-  const [formData, setFormData] = useState([]);
+   const [formData, setFormData] = useState([]);
   const [id, setId] = useState([]);
   const [homeTeamNames, setHomeTeamNames] = useState([]);
-  const [awayTeamNames, setAwayTeamNames] = useState([]);
+  const [awayTeamNames, setAwayTeamNames] = useState([]); // לא בשימוש, נשמור כרגע
   const [last5games, setLast5games] = useState([]);
   const [scores, setScores] = useState([]);
   const [won, setWon] = useState('');
@@ -22,64 +22,13 @@ function CheckWinPage() {
   const [totalWinningPoints, setTotalWinningPoints] = useState(0);
   const [points, setPoints] = useState(0);
   const [check, setCheck] = useState(false);
+
   const loggedUserString = localStorage.getItem('logedName');
   const loggedUser = loggedUserString ? JSON.parse(loggedUserString) : null;
   const username = loggedUser?.logedName;
+
   const navigate = useNavigate();
-  useEffect(() => {
 
-    if (!username) return;
-
-    fetch('http://localhost:8081/auth/get-form', {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify({ username })
-    })
-      .then(response => response.json())
-      .then(data => {
-        if (!data || data.length === 0) {
-          // console.log("No form found for this user, stopping further processing.");
-          setFormData({}); // או להשאיר ריק או לסמן שלא קיים טופס
-          return;
-        }
-        setFormData(data[0]);
-      })
-      .catch(error => console.error('Error fetching data:', error));
-  }, []);
-
-  useEffect(() => {
-    console.log("THE FORM >> ", formData)
-    if (!formData) {
-      return <div>No form available for this user.</div>;
-    }
-    console.log("form > ", formData)
-    if (formData && formData.active === true) {
-      const homeNames = [];
-      const awayNames = [];
-      console.log("total price>> ", formData.total_price)
-      setPoints(formData.total_price);
-      Object.keys(formData).forEach((key) => {
-        if (key.startsWith('match')) {
-
-          const fullMatch = formData[key];
-          if (typeof fullMatch === 'string' && fullMatch.includes(' VS ')) {
-            const [firstTeam, secondTeam] = fullMatch.split(' VS ');
-            homeNames.push(firstTeam.trim());
-            awayNames.push(secondTeam.trim());
-          }
-        }
-      });
-
-      setHomeTeamNames(homeNames);
-      setAwayTeamNames(awayNames);
-    }
-
-
-  }, [formData]);
-  
-  console.log("points > ", points)
   const teamNameFixes = {
     "Basaksehir": "Istanbul Basaksehir",
     "CD Mirandés": "Mirandes",
@@ -125,7 +74,6 @@ function CheckWinPage() {
     "Grêmio Novorizontino": "Novorizontino",
     "KuPS Kuopio": "KuPS",
     "Newells Old Boys": "Newell's Old Boys",
-    // "Botafogo": "Botafogo-SP",
     "Talleres": "Talleres de Córdoba",
     "Belgrano de Cordoba": "Belgrano",
     "Ħamrun Spartans FC": "Ħamrun Spartans",
@@ -137,267 +85,238 @@ function CheckWinPage() {
   };
 
   const tryFetchTeamId = async (teamName) => {
-  const nameOptions = teamNameFixes[teamName] || [teamName];
+    const nameOptions = teamNameFixes[teamName] || [teamName];
 
-  for (const name of nameOptions) {
-    const encodedTeam = encodeURIComponent(name);
-    try {
-      const response = await fetch(`https://www.thesportsdb.com/api/v1/json/3/searchteams.php?t=${encodedTeam}`);
-      const data = await response.json();
-
-      if (data.teams && data.teams.length > 0) {
-        return data.teams[0].idTeam;
+    for (const name of nameOptions) {
+      const encodedTeam = encodeURIComponent(name);
+      try {
+        const response = await fetch(`https://www.thesportsdb.com/api/v1/json/3/searchteams.php?t=${encodedTeam}`);
+        const data = await response.json();
+        if (data.teams && data.teams.length > 0) return data.teams[0].idTeam;
+      } catch (error) {
+        console.error(`Error fetching team: ${name}`, error);
       }
-    } catch (error) {
-      console.error(`Error fetching team: ${name}`, error);
     }
-  }
+    return null;
+  };
 
-  return null;
-};
+  // ====================== USEEFFECTS ======================
 
+  // Fetch user form
+  useEffect(() => {
+    if (!username) return;
+
+    fetch('http://localhost:8081/auth/get-form', {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ username })
+    })
+      .then(res => res.json())
+      .then(data => {
+        if (!data || data.length === 0) setFormData({});
+        else setFormData(data[0]);
+      })
+      .catch(error => console.error('Error fetching data:', error));
+  }, [username]); // ✅ הוספנו את username לתלות
+
+  // Parse home and away team names from formData
+  useEffect(() => {
+    if (!formData || !formData.active) return;
+
+    const homeNames = [];
+    const awayNames = [];
+    setPoints(formData.total_price);
+
+    Object.keys(formData).forEach((key) => {
+      if (key.startsWith('match')) {
+        const fullMatch = formData[key];
+        if (typeof fullMatch === 'string' && fullMatch.includes(' VS ')) {
+          const [firstTeam, secondTeam] = fullMatch.split(' VS ');
+          homeNames.push(firstTeam.trim());
+          awayNames.push(secondTeam.trim());
+        }
+      }
+    });
+
+    setHomeTeamNames(homeNames);
+    setAwayTeamNames(awayNames); // לא בשימוש, אבל נשאר
+  }, [formData]);
+
+  // Fetch team IDs
   useEffect(() => {
     if (homeTeamNames.length === 0) return;
+
     const fetchIds = async () => {
       const newIds = [];
-
       for (const team of homeTeamNames) {
         const fixedTeam = teamNameFixes[team] || team;
+        let teamId = await tryFetchTeamId(fixedTeam);
 
-        // const encodedTeam = encodeURIComponent(fixedTeam);
-        // console.log("fixed N encoded ", encodedTeam)
-        try {
-          const fullTeamName = fixedTeam;
-          let teamId = await tryFetchTeamId(fullTeamName);
-
-          if (!teamId) {
-            // אם לא נמצא לפי השם המלא אזז לפי מילה בודדת
-            const words = fullTeamName.split(" ");
-            if (words.length > 1) {
-              const partialTeamName = words[words.length - 1]; // ניקח את המילה האחרונה
-              teamId = await tryFetchTeamId(partialTeamName);
-            }
-          }
-          if (teamId) {
-
-            newIds.push(teamId);
-          } else {
-            console.error(`Team not found: ${fullTeamName}`);
-          }
-
-        } catch (error) {
-          console.error(`ERORR ON THE TEAM : ${team}`, error);
+        if (!teamId) {
+          const words = fixedTeam.split(" ");
+          if (words.length > 1) teamId = await tryFetchTeamId(words[words.length - 1]);
         }
 
+        if (teamId) newIds.push(teamId);
       }
-      console.log(newIds)
       setId(newIds);
     };
 
     fetchIds();
-  }, [homeTeamNames]);
+  }, [homeTeamNames, teamNameFixes, tryFetchTeamId]); // ✅ הוספנו את teamNameFixes ו-tryFetchTeamId
 
+  // Fetch last games
   useEffect(() => {
     if (id.length === 0) return;
-    console.log("ID >>> ", id)
+
     const fetchLastGames = async () => {
       try {
-        const gamePromises = id.map(idNum =>
-          fetch(`https://www.thesportsdb.com/api/v1/json/3/eventslast.php?id=${idNum}`)
-            .then(res => res.json())
+        const allGameResults = await Promise.all(
+          id.map(idNum =>
+            fetch(`https://www.thesportsdb.com/api/v1/json/3/eventslast.php?id=${idNum}`)
+              .then(res => res.json())
+          )
         );
-
-        const allGameResults = await Promise.all(gamePromises);
         setLast5games(allGameResults);
-
       } catch (error) {
         console.error("ERROR LINE 120 >", error);
       }
     };
+
     fetchLastGames();
   }, [id]);
 
-  function normalizeName(name) {
-    name = String(name); // המרה למחרוזת
-    return name
-      .replace(/ä/g, "ae")   // החלפה של ä ב־ ae
-      .replace(/å/g, "aa")   // החלפה של å ב־ aa
-      .normalize("NFD")                    // מפרק תווים עם סימנים
-      .replace(/[\u0300-\u036f]/g, "")
-      .replace(/\./g, "") // מסיר רק נקודות    // מסיר את הסימנים
-      .trim()
-      .toLowerCase();
-  }
-
+  // Process scores
   useEffect(() => {
-    if (!last5games || last5games.length !== 5) return;
-    console.log("last 5 games >>> ", last5games)
+    if (!last5games || last5games.length !== 5 || !formData) return;
+
     const allScores = [];
 
-    for (let i = 0, x = 0; i < last5games.length; i++, x++) {
+    for (let i = 0; i < last5games.length; i++) {
       const results = last5games[i].results;
       if (!results || results.length === 0) continue;
-      const [firstTeam, secondTeam] = formData[`match${x + 1}`].split(' VS ');
+
+      const [firstTeam, secondTeam] = formData[`match${i + 1}`].split(' VS ');
       const fixedTeam = teamNameFixes[secondTeam] || secondTeam;
-      console.log(firstTeam, secondTeam)
+
       for (let j = 0; j < results.length; j++) {
-        // חותך פה כדי להשוות אחר כך בין התאריכים מהAPI ומהטופס
-        const dateFromForm = formData[`date${i + 1}`].slice(0, -14);
-        console.log("Compering 2 dates >>> ", results[j].dateEvent + ">>" + dateFromForm);
+        const dateFromForm = formData[`date${i + 1}`]?.slice(0, -14);
         if (
           results[j].strAwayTeam &&
-          (
-            normalizeName(results[j].strAwayTeam) === normalizeName(fixedTeam) ||
-            normalizeName(fixedTeam).includes(normalizeName(results[j].strAwayTeam))
-          )
-          && results[j].dateEvent === dateFromForm
+          (normalizeName(results[j].strAwayTeam) === normalizeName(fixedTeam) ||
+            normalizeName(fixedTeam).includes(normalizeName(results[j].strAwayTeam))) &&
+          results[j].dateEvent === dateFromForm
         ) {
-          const awayS = results[j].intAwayScore;
-          const homeS = results[j].intHomeScore;
-          console.log("RES : " + homeS + " : " + awayS)
-          const newScore = {
+          allScores.push({
             firstTeam: firstTeam.trim(),
-            score: homeS > awayS ? "1" : homeS === awayS ? "X" : "2",
-            result: homeS + " : " + awayS,
-          };
-
-          allScores.push(newScore);
+            score: results[j].intHomeScore > results[j].intAwayScore
+              ? "1"
+              : results[j].intHomeScore === results[j].intAwayScore
+              ? "X"
+              : "2",
+            result: results[j].intHomeScore + " : " + results[j].intAwayScore,
+          });
           break;
         }
       }
     }
 
     setScores(allScores);
-  }, [last5games]);
+  }, [last5games, formData, teamNameFixes]); // ✅ הוספנו teamNameFixes ו-formData
 
-  function normalizeTeamName(name) {
-    return name
-      .toLowerCase()
-      .replace(/club|fc|cd|do/g, '')
-      .replace(/\s+/g, '')
-      .trim();
-  }
-
+  // Check if all scores are correct
   useEffect(() => {
-    console.log("line : 2*41", scores)
     if (!formData || scores.length !== 5) return;
 
     const hasIncorrect = Array.from({ length: 5 }, (_, index) => {
       const match = formData[`match${index + 1}`];
       const result = formData[`result${index + 1}`];
-      console.log("line : 246")
       if (!match) return false;
 
       const [firstTeam] = match.split(' VS ');
-      const matchedScore = scores.find((score) => {
-        const normalizedScore = normalizeTeamName(score.firstTeam);
-        const normalizedForm = normalizeTeamName(firstTeam);
-        console.log("line : 253 >")
-        return (
-          normalizedScore.includes(normalizedForm) ||
-          normalizedForm.includes(normalizedScore)
-        );
-      });
-      console.log("RES : " + result + " // " + matchedScore.score)
+      const matchedScore = scores.find(score =>
+        normalizeTeamName(score.firstTeam).includes(normalizeTeamName(firstTeam)) ||
+        normalizeTeamName(firstTeam).includes(normalizeTeamName(score.firstTeam))
+      );
+
       return !matchedScore || result.trim() !== matchedScore.score.trim();
     }).some(Boolean);
 
-    if (hasIncorrect) {
-      setWon('0');
-      console.log("line : 265")
-    }
-    else {
-      setWon('1')
-      console.log("line : 269")
-    }
+    setWon(hasIncorrect ? '0' : '1');
   }, [formData, scores]);
 
-  /*
-  0 נחשב "שקר" (false)
-
-1 נחשב "אמת" (true)
-   */
+  // Send result to backend
   useEffect(() => {
-
     if (won === '') return;
 
-    // setHasSent(true);
-    console.log("here >>>>>>>>>>>>>>>>>>>>>>>>> ");
     fetch('http://localhost:8081/auth/checkWin', {
       method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
+      headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ username, won, points })
     })
-      .then(response => response.json())
+      .then(res => res.json())
       .then(data => {
-        console.log("msg >>>>>>>>>>>>>>>>>>>>>>>>> ", data);
-        if (data.noWin) {
-          setMsg(prev => ({ ...prev, lose: data.noWin }));
-        }
-        if (data.win) {
-          setMsg(prev => ({ ...prev, win: data.win }));
-        }
+        if (data.noWin) setMsg(prev => ({ ...prev, lose: data.noWin }));
+        if (data.win) setMsg(prev => ({ ...prev, win: data.win }));
       })
       .catch(error => console.error('Error fetching data:', error));
-  }, [won]);
+  }, [won, username, points]); // ✅ הוספנו username ו-points
 
-
-
-
-
-  ////////////////חלק 2- הטפסים מהעבר ...//////////////////
-
+  // Fetch past forms
   useEffect(() => {
+    if (!username) return;
+
     fetch('http://localhost:8081/auth/get-past-forms', {
       method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
+      headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ username })
     })
-      .then(response => response.json())
-      .then(data => {
-        setpastForms(data);
-      })
-  }, []);
+      .then(res => res.json())
+      .then(data => setpastForms(data))
+      .catch(error => console.error(error));
+  }, [username]);
 
+  // Calculate stats from past forms
   useEffect(() => {
-    console.log("data of past forms >> ", pastForms);
-    let won = 0;
-    let lose = 0;
-    let highScore = 0;
-    let highScoreForWin = 0;
-    let totalP = 0;
-    let totalPwin = 0;
-    pastForms.forEach((form) => {
-      totalP = Number(totalP) + Number(form.total_price);
-      if (form.won)
-        won++
-      else
-        lose++;
+    let won = 0, lose = 0, highScore = 0, highScoreForWin = 0, totalP = 0, totalPwin = 0;
 
-      if (highScore < form.total_price)
-        highScore = form.total_price
-
-      if (form.won == true) {
-        totalPwin = Number(totalPwin) + Number(form.total_price);
-        if (highScoreForWin < form.total_price)
-          highScoreForWin = form.total_price
+    pastForms.forEach(form => {
+      totalP += Number(form.total_price);
+      if (form.won) won++; else lose++;
+      if (highScore < form.total_price) highScore = form.total_price;
+      if (form.won === true) {
+        totalPwin += Number(form.total_price);
+        if (highScoreForWin < form.total_price) highScoreForWin = form.total_price;
       }
+    });
 
-
-    })
-    setAvg(parseFloat((won / pastForms.length * 100).toFixed(1)));
-    setLoses(lose)
+    setAvg(parseFloat(((won / pastForms.length) * 100).toFixed(1)));
     setWins(won);
+    setLoses(lose);
     sethighestPoints(highScore);
     sethighestPointsForWin(highScoreForWin);
-    setTotalPoints(totalP)
-    setTotalWinningPoints(totalPwin)
-    console.log("total points >> ", totalP)
-  }, [pastForms])
+    setTotalPoints(totalP);
+    setTotalWinningPoints(totalPwin);
+  }, [pastForms]);
+
+  // ====================== HELPER FUNCTIONS ======================
+
+  function normalizeName(name) {
+    return String(name)
+      .replace(/ä/g, "ae")
+      .replace(/å/g, "aa")
+      .normalize("NFD")
+      .replace(/[\u0300-\u036f]/g, "")
+      .replace(/\./g, "")
+      .trim()
+      .toLowerCase();
+  }
+
+  function normalizeTeamName(name) {
+    return name.toLowerCase().replace(/club|fc|cd|do/g, '').replace(/\s+/g, '').trim();
+  }
+
+
   return (
 
     <div className='blok'>
