@@ -1,4 +1,3 @@
-process.env.ESLINT_NO_DEV_ERRORS = 'true';
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
 

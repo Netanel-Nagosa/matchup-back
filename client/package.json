@@ -21,7 +21,8 @@
   },
   "proxy": "http://localhost:8081",
   "scripts": {
-     "dev": "vite",
+    "prebuild": "set ESLINT_NO_DEV_ERRORS=true",
+    "dev": "vite",
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
