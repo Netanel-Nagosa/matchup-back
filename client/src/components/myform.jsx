@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import { useState } from 'react'
 import Swal from 'sweetalert2';
 import "../styles/myform.css";
 
@@ -18,8 +18,7 @@ function Myform() {
         .then(response => response.json())
         .then(data => {
             bets.push(...data);
-            
-            for (let i = 1; i <= 5; i++) {
+                        for (let i = 1; i <= 5; i++) {
                 const match = document.querySelector(`#hiddenMatch${i}`)?.value || "";
                 const result = document.querySelector(`#result${i}`)?.textContent || "";
                 const price = parseInt(document.querySelector(`#odd${i}`)?.textContent || "0", 10);

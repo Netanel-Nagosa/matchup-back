@@ -31,7 +31,7 @@ function LeaguePage({ leagueKey, leagueTitle }) {
     const interval = setInterval(checkAndClearBets, 2 * 60 * 1000);
     checkAndClearBets();
     return () => clearInterval(interval);
-  }, []);
+  }, [loggedUser]);
 
   const handleBet = async (home_team, away_team, competition, result, odd, time) => {
     const loggedUserString = localStorage.getItem('logedName');
@@ -48,7 +48,7 @@ function LeaguePage({ leagueKey, leagueTitle }) {
         body: JSON.stringify({ player, home_team, away_team, competition, result, odd, date })
       });
 
-      const data = await res.json();
+      // const data = await res.json();
 
       if (res.ok) {
         Swal.fire({

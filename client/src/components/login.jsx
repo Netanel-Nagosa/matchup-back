@@ -4,11 +4,11 @@ import { useContext } from 'react';
 import { UserContext } from './UserContext';
 import Swal from 'sweetalert2';
 
-import { Link, useNavigate } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 
 // נעצר כאן , 18/6, לעצב את לוגין ואת רג'יסטר ולעבור על הדברים הרשומים בפלאפון
 export default function Login() {
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
   const { setUser } = useContext(UserContext);
   const handleLogin = async (e) => {
     e.preventDefault();

@@ -7,12 +7,12 @@ function Profile() {
     const loggedUserString = localStorage.getItem('logedName');
     const loggedUser = loggedUserString ? JSON.parse(loggedUserString) : null;
     const user = loggedUser?.logedName;
-    const [refresh, setRefresh] = useState(false);
+    // const [refresh, setRefresh] = useState(false);
     const [joinDate, setJoinDate] = useState();
 
-    const forceRerender = () => {
-        setRefresh(prev => !prev);
-    };
+    // const forceRerender = () => {
+    //     setRefresh(prev => !prev);
+    // };
 
     const handleUsernameChange = () => {
         const currentUsername = document.getElementById("currentUsername").value;
