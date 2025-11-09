@@ -63,7 +63,7 @@ function CheckWinPage() {
     });
 
     setHomeTeamNames(homeNames);
-    setAwayTeamNames(awayNames);
+    // setAwayTeamNames(awayNames);
   }, [formData]);
 
   const teamNameFixes = {
@@ -246,7 +246,7 @@ function CheckWinPage() {
       body: JSON.stringify({ username, won, points })
     })
       .then(res => res.json())
-      .then(data => setMsg({ win: data.win || null, lose: data.noWin || null }))
+      // .then(data => setMsg({ win: data.win || null, lose: data.noWin || null }))
       .catch(err => console.error('Error sending win info:', err));
   }, [won, username, points]);
 

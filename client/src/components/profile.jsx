@@ -10,9 +10,9 @@ function Profile() {
     // const [refresh, setRefresh] = useState(false);
     const [joinDate, setJoinDate] = useState();
 
-    const forceRerender = () => {
-        setRefresh(prev => !prev);
-    };
+    // const forceRerender = () => {
+    //     setRefresh(prev => !prev);
+    // };
 
     const handleUsernameChange = () => {
         const currentUsername = document.getElementById("currentUsername").value;
