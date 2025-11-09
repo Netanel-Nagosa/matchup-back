@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import '../styles/prize.css';
 import img1 from '../prizePhotos/img1.png';
 import img2 from '../prizePhotos/img2.png';
@@ -121,11 +121,12 @@ function Prize() {
               ) : (
                 sortedPlayers.slice(0, 5).map((player, index) => {
                   const colors = ["gold", "silver", "rgb(226 132 2)", "#585858", "#585858"];
-                  const Heading = ['h2','h3','h4','h5','h6'][index];
-                  return React.createElement(
-                    Heading,
-                    { key: index, style: { color: colors[index] } },
-                    `${index+1}) name : ${player.username} , points : ${player.points}`
+                  const Tag = index === 0 ? 'h2' : index === 1 ? 'h3' : index === 2 ? 'h4' : index === 3 ? 'h5' : 'h6';
+
+                  return (
+                    <Tag key={index} style={{ color: colors[index] }}>
+                      {index + 1}) name : {player.username} , points : {player.points}
+                    </Tag>
                   );
                 })
               )}
