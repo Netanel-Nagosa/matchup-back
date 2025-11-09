@@ -481,7 +481,7 @@ function CheckWinPage() {
                         );
                       })
                     ) : (
-                    pastForms.length > 0  &&pastForms.slice().reverse().map((form, index) => {
+                    pastForms.length > 0  &&pastForms.slice().reverse().filter(form => check === false || form.won).map((form, index) => {
                     console.log("len >>>>>>>>>>>> " + pastForms.length);
                     if(!form.won)return ;
                     const s = form['created_at'];
