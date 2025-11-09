@@ -7,7 +7,6 @@ function CheckWinPage() {
    const [formData, setFormData] = useState([]);
   const [id, setId] = useState([]);
   const [homeTeamNames, setHomeTeamNames] = useState([]);
-  const [awayTeamNames, setAwayTeamNames] = useState([]); // לא בשימוש, נשמור כרגע
   const [last5games, setLast5games] = useState([]);
   const [scores, setScores] = useState([]);
   const [won, setWon] = useState('');
@@ -29,7 +28,7 @@ function CheckWinPage() {
 
   const navigate = useNavigate();
 
-  const teamNameFixes = {
+  const teamNameFixes = useMemo(() => ({
     "Basaksehir": "Istanbul Basaksehir",
     "CD Mirandés": "Mirandes",
     "CD Eldense": "Eldense",
@@ -82,10 +81,10 @@ function CheckWinPage() {
     "Atlanta United FC": "Atlanta United",
     "Leuven": "Oud-Heverlee Leuven",
     "Minnesota United FC": "Minnesota United",
-  };
+  }), []);
 
-  const tryFetchTeamId = async (teamName) => {
-    const nameOptions = teamNameFixes[teamName] || [teamName];
+  const tryFetchTeamId = useCallback(async (teamName) => {
+    const nameOptions = teamNameFixes[teamName] ? [teamNameFixes[teamName]] : [teamName];
 
     for (const name of nameOptions) {
       const encodedTeam = encodeURIComponent(name);
@@ -98,11 +97,10 @@ function CheckWinPage() {
       }
     }
     return null;
-  };
+  }, [teamNameFixes]);
 
   // ====================== USEEFFECTS ======================
 
-  // Fetch user form
   useEffect(() => {
     if (!username) return;
 
@@ -117,32 +115,27 @@ function CheckWinPage() {
         else setFormData(data[0]);
       })
       .catch(error => console.error('Error fetching data:', error));
-  }, [username]); // ✅ הוספנו את username לתלות
+  }, [username]);
 
-  // Parse home and away team names from formData
   useEffect(() => {
     if (!formData || !formData.active) return;
 
     const homeNames = [];
-    const awayNames = [];
     setPoints(formData.total_price);
 
     Object.keys(formData).forEach((key) => {
       if (key.startsWith('match')) {
         const fullMatch = formData[key];
         if (typeof fullMatch === 'string' && fullMatch.includes(' VS ')) {
-          const [firstTeam, secondTeam] = fullMatch.split(' VS ');
+          const [firstTeam] = fullMatch.split(' VS ');
           homeNames.push(firstTeam.trim());
-          awayNames.push(secondTeam.trim());
         }
       }
     });
 
     setHomeTeamNames(homeNames);
-    setAwayTeamNames(awayNames); // לא בשימוש, אבל נשאר
   }, [formData]);
 
-  // Fetch team IDs
   useEffect(() => {
     if (homeTeamNames.length === 0) return;
 
@@ -163,9 +156,8 @@ function CheckWinPage() {
     };
 
     fetchIds();
-  }, [homeTeamNames, teamNameFixes, tryFetchTeamId]); // ✅ הוספנו את teamNameFixes ו-tryFetchTeamId
+  }, [homeTeamNames, tryFetchTeamId, teamNameFixes]);
 
-  // Fetch last games
   useEffect(() => {
     if (id.length === 0) return;
 
