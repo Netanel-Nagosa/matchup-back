@@ -4,15 +4,15 @@ import backgroundImage from '../backPhotos/backgroundGameNotChosen.png';
 import Swal from 'sweetalert2';
 import { DiCodeigniter } from "react-icons/di";
 
-
 function LeaguePage({ leagueKey, leagueTitle }) {
   const [games, setGames] = useState([]);
-  const [predictions, setPredictions] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const gamesPerPage = 6;
 
   const loggedUserString = localStorage.getItem('logedName');
   const loggedUser = loggedUserString ? JSON.parse(loggedUserString) : null;
+
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(() => {
     if (!loggedUser || !loggedUser.logedName) return;
     const player = loggedUser.logedName;
@@ -29,9 +29,7 @@ function LeaguePage({ leagueKey, leagueTitle }) {
         .catch(err => console.error(err));
     };
     const interval = setInterval(checkAndClearBets, 2 * 60 * 1000);
-
     checkAndClearBets();
-
     return () => clearInterval(interval);
   }, []);
 
@@ -89,18 +87,17 @@ function LeaguePage({ leagueKey, leagueTitle }) {
           return gameTime > now && gameTime <= threeDaysFromNow;
         });
         setGames(filteredData);
-
       } catch (error) {
         console.error("Error fetching data: ", error);
       }
     };
-
     fetchData();
   }, [leagueKey, leagueTitle]);
-  console.log("games >>", games)
+
   if (!leagueTitle || !leagueKey) {
     return <div style={{
-      color: 'white', textAlign: 'center', fontSize: 'xx-large', backgroundImage: `url(${backgroundImage})`, backgroundImage: `url(${backgroundImage})`,
+      color: 'white', textAlign: 'center', fontSize: 'xx-large', 
+      backgroundImage: `url(${backgroundImage})`,
       backgroundSize: '100% 100%',
       backgroundRepeat: 'no-repeat',
       backgroundPosition: 'center',
@@ -120,7 +117,6 @@ function LeaguePage({ leagueKey, leagueTitle }) {
       formattedTime: `${date} // ${time}`
     };
   });
-  console.log("games >>>>>> ", formattedGames)
 
   function toTitleCase(str) {
     return str
@@ -144,27 +140,17 @@ function LeaguePage({ leagueKey, leagueTitle }) {
       }
 
       const data = await response.json();
-
-      // שמור את התחזית
-      setPredictions(data.tip);
-      console.log("THE TIP:", data.tip);
-
-      const score1 = 'score';
-      const prediction = 'prediction';
-      const confidence = 'confidence';
-      const text = 'text';
       const tip = JSON.parse(data.tip);
-      // הצג את החלון רק אחרי שקיבלת נתונים
+
       Swal.fire({
         icon: "info",
         iconColor: "goldenrod",
         background: "black",
         html: `
-        <b>Prediction:</b> ${tip.prediction}<br>
-        <b>Score:</b> ${tip.score}<br>
-        <b>Confidence:</b> ${tip.confidence}<br>
-        <b>Explanation:</b> ${tip.text}
-      `,
+          <b>Prediction:</b> ${tip.prediction}<br>
+          <b>Explanation:</b> ${tip.text}<br>
+          <b>Confidence:</b> ${tip.confidence}<br>
+        `,
         color: "white",
         confirmButtonColor: "goldenrod",
         showCancelButton: false,
@@ -180,10 +166,9 @@ function LeaguePage({ leagueKey, leagueTitle }) {
     }
   };
 
-
   return (
     <>
-      <div className="lgp container-fluid ">
+      <div className="lgp container-fluid">
         <div className='h2Div'>
           <h2 style={{ textTransform: 'capitalize' }}>{leagueTitle}</h2>
         </div>
@@ -202,13 +187,10 @@ function LeaguePage({ leagueKey, leagueTitle }) {
                 <div className="hamlatza">
                   <div
                     className="hamlatza-tip"
-                    onClick={() => {
-                      handleAITip(item.home_team, item.away_team);
-                    }}
+                    onClick={() => handleAITip(item.home_team, item.away_team)}
                   >
                     TIP <DiCodeigniter />
                   </div>
-
                 </div>
                 <div className="games row d-flex justify-content-evenly w-100">
                   <div className="class30">
@@ -240,7 +222,6 @@ function LeaguePage({ leagueKey, leagueTitle }) {
               </div>
             </div>
           ))
-
         )}
       </div>
       <Pagination
