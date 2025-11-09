@@ -4,7 +4,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import Swal from 'sweetalert2';
 
 function CheckWinPage() {
-   const [formData, setFormData] = useState([]);
+  const [formData, setFormData] = useState([]);
   const [id, setId] = useState([]);
   const [homeTeamNames, setHomeTeamNames] = useState([]);
   const [last5games, setLast5games] = useState([]);
@@ -204,8 +204,8 @@ function CheckWinPage() {
             score: results[j].intHomeScore > results[j].intAwayScore
               ? "1"
               : results[j].intHomeScore === results[j].intAwayScore
-              ? "X"
-              : "2",
+                ? "X"
+                : "2",
             result: results[j].intHomeScore + " : " + results[j].intAwayScore,
           });
           break;
@@ -481,43 +481,45 @@ function CheckWinPage() {
                         );
                       })
                     ) : (
-                    pastForms.length > 0  &&pastForms.slice().reverse().filter(form => check === false || form.won).map((form, index) => {
-                    console.log("len >>>>>>>>>>>> " + pastForms.length);
-                    if(!form.won)return ;
-                    const s = form['created_at'];
-                    const [date, timeWithMs] = s.split('T');
-                    const time = timeWithMs.split('.')[0];
+                      pastForms
+                        .slice()
+                        .reverse()
+                        .filter(form => check === false || form.won) // אם רוצים רק זכיות כש־check = true
+                        .map((form, index) => {
+                          const s = form['created_at'];
+                          const [date, timeWithMs] = s.split('T');
+                          const time = timeWithMs.split('.')[0];
 
-                    const match1 = form['match1'];
-                    const match2 = form['match2'];
-                    const match3 = form['match3'];
-                    const match4 = form['match4'];
-                    const match5 = form['match5'];
-                    const result1 = form['result1'];
-                    const result2 = form['result2'];
-                    const result3 = form['result3'];
-                    const result4 = form['result4'];
-                    const result5 = form['result5'];
-                    const won = form['won'];
-                    const wonStr = won.toString().toUpperCase();
+                          const match1 = form['match1'];
+                          const match2 = form['match2'];
+                          const match3 = form['match3'];
+                          const match4 = form['match4'];
+                          const match5 = form['match5'];
+                          const result1 = form['result1'];
+                          const result2 = form['result2'];
+                          const result3 = form['result3'];
+                          const result4 = form['result4'];
+                          const result5 = form['result5'];
+                          const won = form['won'];
+                          const wonStr = won.toString().toUpperCase();
 
-                    return (
-                      <div key={index} className='past-form-div'>
-                        <span className='dateNtime'>🗓️: {date} , {time}</span> <br />
-                        <span className='mtc'>⚽️: {match1} </span><br />
-                        <span>Your Bet: {result1}</span><br />
-                        <span className='mtc'>⚽️: {match2} </span><br />
-                        <span>Your Bet: {result2}</span><br />
-                        <span className='mtc'>⚽️: {match3} </span><br />
-                        <span>Your Bet: {result3}</span><br />
-                        <span className='mtc'>⚽️: {match4} </span><br />
-                        <span>Your Bet: {result4}</span><br />
-                        <span className='mtc'>⚽️: {match5} </span><br />
-                        <span>Your Bet: {result5}</span><br /><br />
-                        <span className='won' style={{ color: wonStr === 'TRUE' ? 'gold' : 'gray' }}>🏆: {wonStr}</span>
-                      </div>
-                    );
-                  })
+                          return (
+                            <div key={index} className='past-form-div'>
+                              <span className='dateNtime'>🗓️: {date} , {time}</span> <br />
+                              <span className='mtc'>⚽️: {match1} </span><br />
+                              <span>Your Bet: {result1}</span><br />
+                              <span className='mtc'>⚽️: {match2} </span><br />
+                              <span>Your Bet: {result2}</span><br />
+                              <span className='mtc'>⚽️: {match3} </span><br />
+                              <span>Your Bet: {result3}</span><br />
+                              <span className='mtc'>⚽️: {match4} </span><br />
+                              <span>Your Bet: {result4}</span><br />
+                              <span className='mtc'>⚽️: {match5} </span><br />
+                              <span>Your Bet: {result5}</span><br /><br />
+                              <span className='won' style={{ color: wonStr === 'TRUE' ? 'gold' : 'gray' }}>🏆: {wonStr}</span>
+                            </div>
+                          );
+                        })
                     )
                   }
 
