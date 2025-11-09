@@ -282,13 +282,13 @@ function CheckWinPage() {
       if (form.total_price > highScore) highScore = form.total_price;
     });
 
-    setAvg(parseFloat(((wonCount / pastForms.length) * 100).toFixed(1)));
-    setWins(wonCount);
-    setLoses(loseCount);
-    setHighestPoints(highScore);
-    setHighestPointsForWin(highScoreForWin);
-    setTotalPoints(totalP);
-    setTotalWinningPoints(totalPwin);
+    // setAvg(parseFloat(((wonCount / pastForms.length) * 100).toFixed(1)));
+    // setWins(wonCount);
+    // setLoses(loseCount);
+    // setHighestPoints(highScore);
+    // setHighestPointsForWin(highScoreForWin);
+    // setTotalPoints(totalP);
+    // setTotalWinningPoints(totalPwin);
   }, [pastForms]);
 
   return (

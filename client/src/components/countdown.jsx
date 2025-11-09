@@ -131,9 +131,9 @@ function Countdown() {
             .then(res => res.json())
             .then(data => {
                 const names = data.map(item => item.winner);
-                const actives = data.map(item => item.active);
+                // const actives = data.map(item => item.active);
                 setWinners(names);
-                setActive(actives);
+                // setActive(actives);
 
                 counterActive.current = 0;
                 for (const item of data) {
