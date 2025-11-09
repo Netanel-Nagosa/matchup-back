@@ -76,7 +76,7 @@ export default function Home() {
             <i className="bi bi-windows" style={{ fontSize: "2rem" }}></i>
             <h5>Play Everywhere!</h5>
             <p>Download on PC/Phone</p>
-            <a href="about:blank" target='_blank'><button className="btn btn-secondary">Download Now</button></a>
+            <a href="about:blank" rel="noreferrer" target='_blank'><button className="btn btn-secondary">Download Now</button></a>
           </div>
         </div>
         <div className="card shadow">
@@ -92,11 +92,11 @@ export default function Home() {
             <i className="bi bi-people" style={{ fontSize: "2rem" }}></i>
             <h5>Stay in touch!</h5>
             <p>follow us on all platforms</p>
-            <a href="https://www.tiktok.com/he-IL/" target='#'><button className="btn btn-link icons" style={{ color: 'goldenrod' }}><i className="bi bi-tiktok"></i></button></a>
-            <a href="https://www.facebook.com/" target='#'><button className="btn btn-link icons" style={{ color: 'goldenrod' }}><i className="bi bi-facebook"></i></button></a>
-            <a href="https://www.instagram.com/" target='#'><button className="btn btn-link icons" style={{ color: 'goldenrod' }}><i className="bi bi-instagram"></i></button></a>
-            <a href="https://www.x.com/" target='#'><button className="btn btn-link icons" style={{ color: 'goldenrod' }}><i className="bi bi-twitter"></i></button></a>
-            <a href="https://www.youtube.com/" target='#'><button className="btn btn-link icons" style={{ color: 'goldenrod' }}><i className="bi bi-youtube"></i></button></a>
+            <a href="https://www.tiktok.com/he-IL/" rel="noreferrer" target='#'><button className="btn btn-link icons" style={{ color: 'goldenrod' }}><i className="bi bi-tiktok"></i></button></a>
+            <a href="https://www.facebook.com/" rel="noreferrer" target='#'><button className="btn btn-link icons" style={{ color: 'goldenrod' }}><i className="bi bi-facebook"></i></button></a>
+            <a href="https://www.instagram.com/" rel="noreferrer" target='#'><button className="btn btn-link icons" style={{ color: 'goldenrod' }}><i className="bi bi-instagram"></i></button></a>
+            <a href="https://www.x.com/" rel="noreferrer" target='#'><button className="btn btn-link icons" style={{ color: 'goldenrod' }}><i className="bi bi-twitter"></i></button></a>
+            <a href="https://www.youtube.com/" rel="noreferrer" target='#'><button className="btn btn-link icons" style={{ color: 'goldenrod' }}><i className="bi bi-youtube"></i></button></a>
           </div>
         </div>
       </div>

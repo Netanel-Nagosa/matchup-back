@@ -1,27 +1,27 @@
 import React, { useState, useEffect } from 'react';
 import '../styles/checkWin.css';
 import { Link, useNavigate } from 'react-router-dom';
-import Swal from 'sweetalert2';
+// import Swal from 'sweetalert2';
 
 function CheckWinPage() {
   const [formData, setFormData] = useState(null);
   const [id, setId] = useState([]);
   const [homeTeamNames, setHomeTeamNames] = useState([]);
-  const [awayTeamNames, setAwayTeamNames] = useState([]);
+  // const [awayTeamNames, setAwayTeamNames] = useState([]);
   const [last5games, setLast5games] = useState([]);
   const [scores, setScores] = useState([]);
   const [won, setWon] = useState('');
   const [pastForms, setPastForms] = useState([]);
-  const [msg, setMsg] = useState({ win: null, lose: null });
-  const [avg, setAvg] = useState('');
-  const [wins, setWins] = useState('');
-  const [loses, setLoses] = useState('');
-  const [highestPoints, setHighestPoints] = useState('');
-  const [highestPointsForWin, setHighestPointsForWin] = useState('');
-  const [totalPoints, setTotalPoints] = useState(0);
-  const [totalWinningPoints, setTotalWinningPoints] = useState(0);
+  // const [msg, setMsg] = useState({ win: null, lose: null });
+  // const [avg, setAvg] = useState('');
+  // const [wins, setWins] = useState('');
+  // const [loses, setLoses] = useState('');
+  // const [highestPoints, setHighestPoints] = useState('');
+  // const [highestPointsForWin, setHighestPointsForWin] = useState('');
+  // const [totalPoints, setTotalPoints] = useState(0);
+  // const [totalWinningPoints, setTotalWinningPoints] = useState(0);
   const [points, setPoints] = useState(0);
-  const [check, setCheck] = useState(false);
+  // const [check, setCheck] = useState(false);
 
   const loggedUserString = localStorage.getItem('logedName');
   const loggedUser = loggedUserString ? JSON.parse(loggedUserString) : null;

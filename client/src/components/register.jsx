@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 // import '../styles/register.css'
 import './login.css'
 import Swal from 'sweetalert2';
-import { useContext, useState, useEffect } from 'react';
+import { useContext, useState } from 'react';
 import { UserContext } from './UserContext';
 import { useNavigate } from 'react-router-dom';
 
@@ -120,7 +120,7 @@ export default function Register() {
             <input type='checkbox' className='custom-control custom-checkbox' id='check' checked={read}
               onChange={() => setRead(prev => !prev)} />
             <label htmlFor='check' className='custom-input-label ms-2'>
-             <a href="http://" target="_blank" rel="noopener noreferrer">terms and conditions</a> 
+             <a href="http://" target="_blank" rel="noreferrer">terms and conditions</a> 
             </label>
           </div>
 

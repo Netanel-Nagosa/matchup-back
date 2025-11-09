@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { BsPencilSquare } from 'react-icons/bs';
+// import { BsPencilSquare } from 'react-icons/bs';
 import '../styles/profile.css';
 import Swal from 'sweetalert2';
 
@@ -7,7 +7,7 @@ function Profile() {
     const loggedUserString = localStorage.getItem('logedName');
     const loggedUser = loggedUserString ? JSON.parse(loggedUserString) : null;
     const user = loggedUser?.logedName;
-    const [refresh, setRefresh] = useState(false);
+    // const [refresh, setRefresh] = useState(false);
     const [joinDate, setJoinDate] = useState();
 
     const forceRerender = () => {

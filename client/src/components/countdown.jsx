@@ -14,23 +14,23 @@ function Countdown() {
     const [isActive, setIsActive] = useState(false);
     const [winner, setWinner] = useState(false);
     const [isMonthEnded, setIsMonthEnded] = useState(false);
-    const [active, setActive] = useState([]);
+    // const [active, setActive] = useState([]);
     
     const loggedUserString = localStorage.getItem('logedName');
     const loggedUser = loggedUserString ? JSON.parse(loggedUserString) : null;
     const username = loggedUser?.logedName;
 
     // useRef לשמירת ספירות בין רינדורים
-    const counterMail = useRef(1);
+    // const counterMail = useRef(1);
     const counterActive = useRef(0);
 
-    const rewards = [
-        { name: 'Champions League Final X2 Tickets ' },
-        { name: 'Iphone 16' },
-        { name: 'TV Screen 50 Inch' },
-        { name: 'Mystery Box' },
-        { name: 'Mystery Box' }
-    ];
+    // const rewards = [
+    //     { name: 'Champions League Final X2 Tickets ' },
+    //     { name: 'Iphone 16' },
+    //     { name: 'TV Screen 50 Inch' },
+    //     { name: 'Mystery Box' },
+    //     { name: 'Mystery Box' }
+    // ];
 
     function getNextMonthDate() {
         const date = new Date();
