@@ -4,6 +4,7 @@ const userModel = require('../user');
 const { SECRET } = require("../config/database-config")
 const jwt = require("jsonwebtoken");
 const bcrypt = require('bcrypt');
+const axios = require('axios');
 
 
 const addUser = async (req, res) => {
