@@ -150,35 +150,35 @@ const addUser = async (req, res) => {
 //     }
 // }
 
-// const logout = (req, res) => {
+const logout = (req, res) => {
 
-//     if (req.cookies && req.cookies.token) {
+    if (req.cookies && req.cookies.token) {
 
-//         res.clearCookie('token', { httpOnly: true, secure: true, sameSite: 'Strict' });
-//         console.log('Logged out successfully');
-//         return res.json({ msg: "Logged out successfully !!!" });
-//     } else {
+        res.clearCookie('token', { httpOnly: true, secure: true, sameSite: 'Strict' });
+        console.log('Logged out successfully');
+        return res.json({ msg: "Logged out successfully !!!" });
+    } else {
 
-//         return res.status(400).json('cannot log out , theres no user .');
-//     }
-// };
+        return res.status(400).json('cannot log out , theres no user .');
+    }
+};
 
-// const getNames = async (req, res) => {
-//     try {
+const getNames = async (req, res) => {
+    try {
 
-//         const listNames = await userModel.findAll({
-//             where: {
-//                 active: 1
-//             }
-//         });
-//         listNames.push(userN);
-//         return res.json(listNames);
+        const listNames = await userModel.findAll({
+            where: {
+                active: 1
+            }
+        });
+        listNames.push(userN);
+        return res.json(listNames);
 
-//     }
-//     catch (error) {
-//         console.log("you have some error on get names func:: ", error);
-//     };
-// }******************************
+    }
+    catch (error) {
+        console.log("you have some error on get names func:: ", error);
+    };
+
 
 let userN = { logedName: " " };
 
