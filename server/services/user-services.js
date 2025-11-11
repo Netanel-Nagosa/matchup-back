@@ -163,21 +163,22 @@ const logout = (req, res) => {
     }
 };
 
-const getNames = async (req, res) => {
-    try {
+// const getNames = async (req, res) => {
+//     try {
 
-        const listNames = await userModel.findAll({
-            where: {
-                active: 1
-            }
-        });
-        listNames.push(userN);
-        return res.json(listNames);
+//         const listNames = await userModel.findAll({
+//             where: {
+//                 active: 1
+//             }
+//         });
+//         listNames.push(userN);
+//         return res.json(listNames);
 
-    }
-    catch (error) {
-        console.log("you have some error on get names func:: ", error);
-    };
+//     }
+//     catch (error) {
+//         console.log("you have some error on get names func:: ", error);
+//     };
+// }
 
 
 let userN = { logedName: " " };
@@ -360,4 +361,5 @@ const upsetPointsONnewMonth = async (req, res) => {
         return res.send({ problem: "theres a problem 221line" });
 
 }
+
 module.exports = { addUser, login, logout, getNames, getEmail, editUsername, editPassword, getJoinDate, upsetPointsONnewMonth };
