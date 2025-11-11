@@ -1,29 +1,27 @@
-const dbconfig = require("../config/database-config")
-const Sequelize = require("sequelize");
+// מכריח את Node להשתמש ב-IPv4 (חשוב ב-Render!)
+const dns = require('dns');
+dns.setDefaultResultOrder('ipv4first');
 
-if (process.env.PGHOST) {
-  // מחליף את ה-host לכתובת IPv4 אם PGHOST מכיל שם דומיין (מוסיף 'ipv4.' רק אם זה רלוונטי)
-  process.env.PGHOST = process.env.PGHOST.replace(/^(.+)$/, '$1');
-}
+const { Sequelize } = require('sequelize');
 
+// יצירת החיבור למסד הנתונים
 const sequelize = new Sequelize(process.env.DATABASE_URL, {
   dialect: 'postgres',
   dialectOptions: {
     ssl: { require: true, rejectUnauthorized: false }
   },
-  logging: false
+  logging: false,
 });
 
-module.exports = sequelize;
-
-
+// פונקציה לבדוק חיבור
 const checkingConnect = async () => {
-    try {
-      await sequelize.authenticate();
-      console.log('Connection has been established successfully.');
-    } catch (error) {
-      console.error('Unable to connect to the database:', error);
-    }
+  try {
+    await sequelize.authenticate();
+    console.log('✅ Connection has been established successfully.');
+  } catch (error) {
+    console.error('❌ Unable to connect to the database:', error);
   }
-  
-  module.exports = {db: sequelize, checkingConnect };
+};
+
+// מייצאים גם את ה-sequelize וגם את הפונקציה
+module.exports = { db: sequelize, checkingConnect };
