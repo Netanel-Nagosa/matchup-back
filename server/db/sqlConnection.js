@@ -1,17 +1,23 @@
 const dbconfig = require("../config/database-config")
 const Sequelize = require("sequelize");
 
-const sequelize = new Sequelize(
-    dbconfig.DATABASE,
-    dbconfig.USER,
-    dbconfig.PASSWORD,
-    {
-        host: dbconfig.HOST,
-        dialect: dbconfig.DIALECT,
-        dialectOptions: dbconfig.dialectOptions,
-        port: dbconfig.PORT
-    }
-)
+if (process.env.PGHOST) {
+  // מחליף את ה-host לכתובת IPv4 אם PGHOST מכיל שם דומיין (מוסיף 'ipv4.' רק אם זה רלוונטי)
+  process.env.PGHOST = process.env.PGHOST.replace(/^(.+)$/, '$1');
+}
+
+const { Sequelize } = require('sequelize');
+
+const sequelize = new Sequelize(process.env.DATABASE_URL, {
+  dialect: 'postgres',
+  dialectOptions: {
+    ssl: { require: true, rejectUnauthorized: false }
+  },
+  logging: false
+});
+
+module.exports = sequelize;
+
 
 const checkingConnect = async () => {
     try {
