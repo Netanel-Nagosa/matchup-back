@@ -49,7 +49,7 @@ export default function Register() {
         });
         return;
       }
-      const res = await fetch("/auth/register", {
+      const res = await fetch("https://matchup-back-10-11-2025.onrender.com/auth/register", {
         method: "POST",
         headers: {
           "Content-Type": "application/json"

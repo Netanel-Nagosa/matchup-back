@@ -5,100 +5,163 @@ const { SECRET } = require("../config/database-config")
 const jwt = require("jsonwebtoken");
 const bcrypt = require('bcrypt');
 const axios = require('axios');
+const { createClient } = require('@supabase/supabase-js');
 
+
+// const addUser = async (req, res) => {
+//     const { username, first_name, last_name, email, password } = req.body;
+
+//     const checkingUserName = await userModel.findOne({
+//         where: {
+//             username: username
+//         }
+//     })
+//     if (checkingUserName) {
+//         return res.status(500).json({ msg: "Username in use ,please try another one ." })
+//     }
+
+
+//     const checkingUser = await userModel.findOne({
+//         where: {
+//             email: email
+//         }
+//     })
+//     if (checkingUser) {
+//         return res.status(500).json({ msg: "there's account with this email , please try another email." })
+//     }
+
+//     if (!username || !first_name || !last_name || !email || !password) {
+//         return res.status(500).json({ error: "There's a missing field ." })
+//     }
+
+
+//     try {
+//         const hashedPassword = await bcrypt.hash(password, 10);
+//         const newUser = await userModel.create({
+//             username,
+//             first_name,
+//             last_name,
+//             email,
+//             password:hashedPassword,
+//         })
+//         const Token = jwt.sign({ newUser }, SECRET, { expiresIn: '5m' });
+//         res.cookie('token', Token, { httpOnly: false, sameSite: 'lax' }); newUser.token = Token;
+//         await newUser.save(); // להחזיר ברגע האמת !!!!!!!!!
+//         console.log({ msg: "user added succesfuly !", newUser });
+
+//         return res.send({ msg: "added succsesfully !!!!!" })
+
+//     }
+//     catch (error) {
+//         console.log("you have some error :: ", error);
+//     };
+// }********************
+
+const supabaseUrl = process.env.SUPABASE_URL;
+const supabaseKey = process.env.SUPABASE_KEY;
+const supabase = createClient(supabaseUrl, supabaseKey);
 
 const addUser = async (req, res) => {
-    const { username, first_name, last_name, email, password } = req.body;
+  const { username, first_name, last_name, email, password } = req.body;
 
-    const checkingUserName = await userModel.findOne({
-        where: {
-            username: username
-        }
-    })
-    if (checkingUserName) {
-        return res.status(500).json({ msg: "Username in use ,please try another one ." })
+  if (!username || !first_name || !last_name || !email || !password) {
+    return res.status(400).json({ error: "There's a missing field." });
+  }
+
+  try {
+    // בדיקה אם username כבר קיים
+    const { data: existingUserByUsername } = await supabase
+      .from('users')
+      .select('*')
+      .eq('username', username);
+
+    if (existingUserByUsername.length > 0) {
+      return res.status(400).json({ msg: "Username in use, please try another one." });
     }
 
+    // בדיקה אם email כבר קיים
+    const { data: existingUserByEmail } = await supabase
+      .from('users')
+      .select('*')
+      .eq('email', email);
 
-    const checkingUser = await userModel.findOne({
-        where: {
-            email: email
-        }
-    })
-    if (checkingUser) {
-        return res.status(500).json({ msg: "there's account with this email , please try another email." })
+    if (existingUserByEmail.length > 0) {
+      return res.status(400).json({ msg: "There's an account with this email, please try another email." });
     }
 
-    if (!username || !first_name || !last_name || !email || !password) {
-        return res.status(500).json({ error: "There's a missing field ." })
-    }
+    // יצירת המשתמש החדש
+    const hashedPassword = await bcrypt.hash(password, 10);
+    const { data: newUser, error } = await supabase
+      .from('users')
+      .insert([{
+        username,
+        first_name,
+        last_name,
+        email,
+        password: hashedPassword,
+        active: 1
+      }])
+      .select(); // מחזיר את השורה שנוצרה
 
+    if (error) throw error;
 
-    try {
-        const hashedPassword = await bcrypt.hash(password, 10);
-        const newUser = await userModel.create({
-            username,
-            first_name,
-            last_name,
-            email,
-            password:hashedPassword,
-        })
-        const Token = jwt.sign({ newUser }, SECRET, { expiresIn: '5m' });
-        res.cookie('token', Token, { httpOnly: false, sameSite: 'lax' }); newUser.token = Token;
-        await newUser.save(); // להחזיר ברגע האמת !!!!!!!!!
-        console.log({ msg: "user added succesfuly !", newUser });
+    // יצירת JWT
+    const Token = jwt.sign({ newUser }, SECRET, { expiresIn: '5m' });
+    res.cookie('token', Token, { httpOnly: false, sameSite: 'lax' });
 
-        return res.send({ msg: "added succsesfully !!!!!" })
+    console.log({ msg: "User added successfully!", newUser });
+    return res.status(201).json({ msg: "Added successfully!", newUser });
 
-    }
-    catch (error) {
-        console.log("you have some error :: ", error);
-    };
-}
-
-let userN = { logedName: " " };
-const login = async (req, res) => {
-    const { username, password } = req.body;
-
-    try {
-        const user = await userModel.findOne({
-            where: {
-                username: username,
-                password: password,
-            }
-        })
-        if (!user)
-            return res.status(401).json({ err: "User not found" });
-        const token = jwt.sign({ user }, SECRET)
-        res.cookie("token", token, { httpOnly: false, sameSite: 'lax' });
-        user.token = token;
-        await user.save();
-        userN.logedName = username;
-        console.log("USER >>>>>>>>>>> ", userN);
-        res.json({
-            msg: "Welcome " + username + "!",
-            redirectTo: "/",
-            username: username
-        });
-
-    }
-    catch (error) {
-        res.send("theres an error  :: " + error)
-    }
-}
-
-const logout = (req, res) => {
-
-    if (req.cookies && req.cookies.token) {
-
-        res.clearCookie('token', { httpOnly: true, secure: true, sameSite: 'Strict' });
-        console.log('Logged out successfully');
-        return res.json({ msg: "Logged out successfully !!!" });
-    } else {
-
-        return res.status(400).json('cannot log out , theres no user .');
-    }
+  } catch (error) {
+    console.log("you have some error :: ", error.message);
+    return res.status(500).json({ error: "Cannot add user" });
+  }
 };
+
+
+// let userN = { logedName: " " };
+// const login = async (req, res) => {
+//     const { username, password } = req.body;
+
+//     try {
+//         const user = await userModel.findOne({
+//             where: {
+//                 username: username,
+//                 password: password,
+//             }
+//         })
+//         if (!user)
+//             return res.status(401).json({ err: "User not found" });
+//         const token = jwt.sign({ user }, SECRET)
+//         res.cookie("token", token, { httpOnly: false, sameSite: 'lax' });
+//         user.token = token;
+//         await user.save();
+//         userN.logedName = username;
+//         console.log("USER >>>>>>>>>>> ", userN);
+//         res.json({
+//             msg: "Welcome " + username + "!",
+//             redirectTo: "/",
+//             username: username
+//         });
+
+//     }
+//     catch (error) {
+//         res.send("theres an error  :: " + error)
+//     }
+// }
+
+// const logout = (req, res) => {
+
+//     if (req.cookies && req.cookies.token) {
+
+//         res.clearCookie('token', { httpOnly: true, secure: true, sameSite: 'Strict' });
+//         console.log('Logged out successfully');
+//         return res.json({ msg: "Logged out successfully !!!" });
+//     } else {
+
+//         return res.status(400).json('cannot log out , theres no user .');
+//     }
+// };
 
 // const getNames = async (req, res) => {
 //     try {
@@ -115,7 +178,57 @@ const logout = (req, res) => {
 //     catch (error) {
 //         console.log("you have some error on get names func:: ", error);
 //     };
-// }
+// }******************************
+
+let userN = { logedName: " " };
+
+const login = async (req, res) => {
+  const { username, password } = req.body;
+
+  if (!username || !password) {
+    return res.status(400).json({ error: "Missing username or password." });
+  }
+
+  try {
+    // שליפה מהטבלה לפי username
+    const { data: users, error } = await supabase
+      .from('users')
+      .select('*')
+      .eq('username', username);
+
+    if (error) throw error;
+
+    if (!users || users.length === 0) {
+      return res.status(401).json({ err: "User not found" });
+    }
+
+    const user = users[0];
+
+    // בדיקת סיסמה
+    const validPassword = await bcrypt.compare(password, user.password);
+    if (!validPassword) {
+      return res.status(401).json({ err: "Invalid password" });
+    }
+
+    // יצירת JWT
+    const token = jwt.sign({ user }, SECRET, { expiresIn: '5m' });
+    res.cookie("token", token, { httpOnly: false, sameSite: 'lax' });
+
+    userN.logedName = username;
+    console.log("USER >>>>>>>>>>> ", userN);
+
+    res.json({
+      msg: "Welcome " + username + "!",
+      redirectTo: "/",
+      username: username
+    });
+
+  } catch (error) {
+    console.log("Login error :: ", error.message);
+    res.status(500).json({ error: "Cannot login" });
+  }
+};
+
 const getNames = async (req, res) => {
     const supabaseUrl = process.env.SUPABASE_URL;
     const supabaseKey = process.env.SUPABASE_KEY;

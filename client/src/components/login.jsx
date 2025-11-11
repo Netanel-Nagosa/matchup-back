@@ -28,7 +28,7 @@ export default function Login() {
         });
         return;
       }
-      const res = await fetch("/auth/login", {
+      const res = await fetch("https://matchup-back-10-11-2025.onrender.com/auth/login", {
         method: "POST",
         headers: {
           "Content-Type": "application/json"
