@@ -251,6 +251,8 @@ const getNames = async (req, res) => {
   }
 }
 
+/*להמשיך לשנות את הפונקציות שכאן לפונקציות SDK SUPABASE 
+ואז לנסות להריץ בפרונט*/
 
 const getEmail = async (username) => {
     try {
