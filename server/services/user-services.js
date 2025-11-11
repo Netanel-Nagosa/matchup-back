@@ -99,21 +99,40 @@ const logout = (req, res) => {
     }
 };
 
+// const getNames = async (req, res) => {
+//     try {
+
+//         const listNames = await userModel.findAll({
+//             where: {
+//                 active: 1
+//             }
+//         });
+//         listNames.push(userN);
+//         return res.json(listNames);
+
+//     }
+//     catch (error) {
+//         console.log("you have some error on get names func:: ", error);
+//     };
+// }
 const getNames = async (req, res) => {
-    try {
+  try {
+    const response = await axios.get(`${SUPABASE_URL}/rest/v1/users`, {
+      headers: {
+        apikey: SUPABASE_KEY,
+        Authorization: `Bearer ${SUPABASE_KEY}`,
+        Accept: 'application/json'
+      },
+      params: {
+        select: '*'  // או תבחר רק את השדות שאתה צריך
+      }
+    });
 
-        const listNames = await userModel.findAll({
-            where: {
-                active: 1
-            }
-        });
-        listNames.push(userN);
-        return res.json(listNames);
-
-    }
-    catch (error) {
-        console.log("you have some error on get names func:: ", error);
-    };
+    return res.json(response.data);
+  } catch (error) {
+    console.log("you have some error on get names func:: ", error.message);
+    return res.status(500).json({ error: "Cannot fetch names" });
+  }
 }
 
 
