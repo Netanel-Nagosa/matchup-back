@@ -5,6 +5,7 @@ module.exports = {
   DATABASE: 'postgres',
   DIALECT: 'postgres',
   SECRET: 'secret',
+  PORT: 5432,
   dialectOptions: {
     ssl: {
       require: true,
