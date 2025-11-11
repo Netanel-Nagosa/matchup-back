@@ -1,8 +1,14 @@
-module.exports={
-    HOST:'localhost',
-    USER:'root',
-    PASSWORD:'1234',
-    DATABASE:'class10/12',
-    DIALECT:'mysql',
-    SECRET: 'secret',
+module.exports = {
+  HOST: 'db.wvwjfvcoeupoulopdagk.supabase.co',
+  USER: 'postgres',
+  PASSWORD: '5aZMm+ZgbLFp&&t',
+  DATABASE: 'postgres',
+  DIALECT: 'postgres',
+  SECRET: 'secret',
+  dialectOptions: {
+    ssl: {
+      require: true,
+      rejectUnauthorized: false,
+    },
+  },
 };
