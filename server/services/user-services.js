@@ -117,11 +117,13 @@ const logout = (req, res) => {
 //     };
 // }
 const getNames = async (req, res) => {
+    const supabaseUrl = process.env.SUPABASE_URL;
+    const supabaseKey = process.env.SUPABASE_KEY;
   try {
-    const response = await axios.get(`${SUPABASE_URL}/rest/v1/users`, {
+    const response = await axios.get(`${supabaseUrl}/rest/v1/users`, {
       headers: {
-        apikey: SUPABASE_KEY,
-        Authorization: `Bearer ${SUPABASE_KEY}`,
+        apikey: supabaseKey,
+        Authorization: `Bearer ${supabaseKey}`,
         Accept: 'application/json'
       },
       params: {
