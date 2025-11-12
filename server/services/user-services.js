@@ -3,7 +3,7 @@ const { Op } = require("sequelize");
 const userModel = require("../user");
 const { SECRET } = require("../config/database-config");
 const jwt = require("jsonwebtoken");
-const bcrypt = require("bcrypt");
+// const bcrypt = require("bcrypt");
 const axios = require("axios");
 const { createClient } = require("@supabase/supabase-js");
 
@@ -66,34 +66,27 @@ const addUser = async (req, res) => {
   }
 
   try {
-    // בדיקה אם username כבר קיים
     const { data: existingUserByUsername } = await supabase
       .from("users")
       .select("*")
       .eq("username_users", username_users);
 
     if (existingUserByUsername.length > 0) {
-      return res
-        .status(400)
-        .json({ msg: "Username in use, please try another one." });
+      return res.status(400).json({ msg: "Username in use, please try another one." });
     }
 
-    // בדיקה אם email כבר קיים
     const { data: existingUserByEmail } = await supabase
       .from("users")
       .select("*")
       .eq("email", email);
 
     if (existingUserByEmail.length > 0) {
-      return res
-        .status(400)
-        .json({
-          msg: "There's an account with this email, please try another email.",
-        });
+      return res.status(400).json({
+        msg: "There's an account with this email, please try another email.",
+      });
     }
 
-    // יצירת המשתמש החדש
-    const hashedPassword = await bcrypt.hash(password, 10);
+    // שמירת סיסמה כטקסט גולמי (plain) - לא מאובטח
     const { data: newUser, error } = await supabase
       .from("users")
       .insert([
@@ -102,20 +95,19 @@ const addUser = async (req, res) => {
           first_name,
           last_name,
           email,
-          password: hashedPassword,
+          password,     // <-- כאן שומרים plain
           active: 1,
         },
       ])
-      .select(); // מחזיר את השורה שנוצרה
+      .select();
 
     if (error) throw error;
 
-    // יצירת JWT
-    const Token = jwt.sign({ newUser }, SECRET, { expiresIn: "5m" });
-    res.cookie("token", Token, { httpOnly: false, sameSite: "lax" });
+    const Token = jwt.sign({ id: newUser[0].id, username_users }, SECRET, { expiresIn: "5m" });
+    res.cookie("token", Token, { httpOnly: true, sameSite: "lax" });
 
-    console.log({ msg: "User added successfully!" });
-    return res.status(201).json({ msg: "Added successfully!" });
+    console.log("User added successfully:", newUser[0]);
+    return res.status(201).json({ msg: "Added successfully!", user: newUser[0] });
   } catch (error) {
     console.log("you have some error :: ", error.message);
     return res.status(500).json({ error: "Cannot add user" });
@@ -190,13 +182,10 @@ const login = async (req, res) => {
   const { username_users, password } = req.body;
 
   if (!username_users || !password) {
-    return res
-      .status(400)
-      .json({ error: "Missing username_users or password." });
+    return res.status(400).json({ error: "Missing username_users or password." });
   }
 
   try {
-    // שליפה מהטבלה לפי username_users
     const { data: users, error } = await supabase
       .from("users")
       .select("*")
@@ -209,16 +198,16 @@ const login = async (req, res) => {
     }
 
     const user = users[0];
-    
-    // בדיקת סיסמה
-    const validPassword = await bcrypt.compare(password, user.password);
-    if (!validPassword) {
+
+    // בדיקת סיסמה plain-text (לא מאובטח)
+    if (password !== user.password) {
       return res.status(401).json({ err: "Invalid password" });
     }
 
     // יצירת JWT
-    const token = jwt.sign({ user }, SECRET, { expiresIn: "5m" });
-    res.cookie("token", token, { httpOnly: false, sameSite: "lax" });
+    const token = jwt.sign({ id: user.id, username_users: user.username_users }, SECRET, { expiresIn: "5m" });
+    // מומלץ: httpOnly:true בפרודקשן
+    res.cookie("token", token, { httpOnly: true, sameSite: "lax" });
 
     userN.logedName = username_users;
     console.log("USER >>>>>>>>>>> ", userN);
@@ -233,6 +222,7 @@ const login = async (req, res) => {
     res.status(500).json({ error: "Cannot login" });
   }
 };
+
 
 const getNames = async (req, res) => {
   const supabaseUrl = process.env.SUPABASE_URL;
