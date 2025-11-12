@@ -1,20 +1,17 @@
-// src/components/authToken.js
-import jwt from "jsonwebtoken";
-import { SECRET } from "../config/database-config.js"; // שים לב להוסיף .js בסוף בקבצי ESM
+// components/PrivateRoute.jsx
+// src/utils/authToken.js
+import jwtDecode from "jwt-decode"; // ספרייה קלה לפענוח JWT בצד קליינט
 
-export const authenticateToken = (req, res, next) => {
-  const token = req.cookies?.token; // לא צריך await
+export const AuthToken = () => {
+  const token = localStorage.getItem("token"); // או cookies
 
-  if (!token) {
-    return res.status(401).json({ message: "No token provided." });
+  if (!token) return null;
+
+  try {
+    const decoded = jwtDecode(token);
+    return decoded; // מחזיר את ה payload
+  } catch (err) {
+    console.error("Invalid token", err);
+    return null;
   }
-
-  jwt.verify(token, SECRET, (err, decoded) => {
-    if (err) {
-      return res.status(403).json({ message: "Invalid token." });
-    }
-
-    req.user = decoded;
-    next();
-  });
 };
