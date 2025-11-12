@@ -16,7 +16,7 @@ export default function Register() {
     e.preventDefault();
 
 
-    const username = document.getElementById("username").value;
+    const username_users = document.getElementById("username_users").value;
     const password = document.getElementById("password").value;
     const first_name = document.getElementById("first_name").value;
     const email = document.getElementById("email").value;
@@ -24,7 +24,7 @@ export default function Register() {
 
     try {
       console.log("enterd >>>")
-      if (!username || !password || !first_name || !email || !last_name) {
+      if (!username_users || !password || !first_name || !email || !last_name) {
         Swal.fire({
           icon: 'warning',
           iconColor: 'red',
@@ -54,18 +54,18 @@ export default function Register() {
         headers: {
           "Content-Type": "application/json"
         },
-        body: JSON.stringify({ username, first_name, last_name, email, password })
+        body: JSON.stringify({ username_users, first_name, last_name, email, password })
       });
       const data = await res.json();
       console.log("data >>>>>>>>>> ", data)
 
       if (res.ok) {
-        const dl = { logedName: username };
+        const dl = { logedName: username_users };
         localStorage.setItem('logedName', JSON.stringify(dl));
-        setUser(username);
+        setUser(username_users);
         Swal.fire({
           icon: 'success',
-          text: `WELCOME TO MATCHUP ,${username} !`,
+          text: `WELCOME TO MATCHUP ,${username_users} !`,
           timer: 2500,
           background:'black',
           showConfirmButton: false,
@@ -107,8 +107,8 @@ export default function Register() {
           </div>
 
           <div className='mb-2'>
-            <label for="username">User Name :</label>
-            <input type='text' placeholder='Creat your Nickname ' className='form-control' id="username" name="username" />
+            <label for="username_users">User Name :</label>
+            <input type='text' placeholder='Creat your Nickname ' className='form-control' id="username_users" name="username_users" />
           </div>
 
           <div className='mb-2'>

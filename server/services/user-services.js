@@ -62,9 +62,9 @@ const supabaseKey = process.env.SUPABASE_KEY;
 const supabase = createClient(supabaseUrl, supabaseKey);
 
 const addUser = async (req, res) => {
-  const { username, first_name, last_name, email, password } = req.body;
+  const { username_users, first_name, last_name, email, password } = req.body;
 
-  if (!username || !first_name || !last_name || !email || !password) {
+  if (!username_users || !first_name || !last_name || !email || !password) {
     return res.status(400).json({ error: "There's a missing field." });
   }
 
@@ -73,7 +73,7 @@ const addUser = async (req, res) => {
     const { data: existingUserByUsername } = await supabase
       .from('users')
       .select('*')
-      .eq('username', username);
+      .eq('username_users', username_users);
 
     if (existingUserByUsername.length > 0) {
       return res.status(400).json({ msg: "Username in use, please try another one." });
@@ -94,7 +94,7 @@ const addUser = async (req, res) => {
     const { data: newUser, error } = await supabase
       .from('users')
       .insert([{
-        username,
+        username_users,
         first_name,
         last_name,
         email,
@@ -184,18 +184,18 @@ const logout = (req, res) => {
 let userN = { logedName: " " };
 
 const login = async (req, res) => {
-  const { username, password } = req.body;
+  const { username_users, password } = req.body;
 
-  if (!username || !password) {
-    return res.status(400).json({ error: "Missing username or password." });
+  if (!username_users || !password) {
+    return res.status(400).json({ error: "Missing username_users or password." });
   }
 
   try {
-    // שליפה מהטבלה לפי username
+    // שליפה מהטבלה לפי username_users
     const { data: users, error } = await supabase
       .from('users')
       .select('*')
-      .eq('username', username);
+      .eq('username_users', username_users);
 
     if (error) throw error;
 
@@ -215,13 +215,13 @@ const login = async (req, res) => {
     const token = jwt.sign({ user }, SECRET, { expiresIn: '5m' });
     res.cookie("token", token, { httpOnly: false, sameSite: 'lax' });
 
-    userN.logedName = username;
+    userN.logedName = username_users;
     console.log("USER >>>>>>>>>>> ", userN);
 
     res.json({
-      msg: "Welcome " + username + "!",
+      msg: "Welcome " + username_users + "!",
       redirectTo: "/",
-      username: username
+      username_users: username_users
     });
 
   } catch (error) {

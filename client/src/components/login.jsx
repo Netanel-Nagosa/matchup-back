@@ -13,11 +13,11 @@ export default function Login() {
   const handleLogin = async (e) => {
     e.preventDefault();
 
-    const username = document.getElementById("username").value;
+    const username_users = document.getElementById("username_users").value;
     const password = document.getElementById("password").value;
 
     try {
-      if (!username || !password) {
+      if (!username_users || !password) {
         Swal.fire({
           icon: 'warning',
           text: 'YOU NEED TO FILL ALL THE FORM.',
@@ -33,14 +33,14 @@ export default function Login() {
         headers: {
           "Content-Type": "application/json"
         },
-        body: JSON.stringify({ username, password })
+        body: JSON.stringify({ username_users, password })
       });
 
       const data = await res.json();
       if (res.ok) {
-        const dl = { logedName: data.username };
+        const dl = { logedName: data.username_users };
         localStorage.setItem('logedName', JSON.stringify(dl));
-        setUser(data.username);
+        setUser(data.username_users);
         Swal.fire({
           icon: 'success',
           text: `WELCOME BACK , ${dl.logedName} !`,
@@ -78,8 +78,8 @@ export default function Login() {
           </div>
           <h3 className='text-center' style={{color:'goldenrod',fontWeight:'200'}}>LOGIN</h3>
           <div className='mb-2'>
-            <label for="username" >User name</label>
-            <input type='text' placeholder='Enter User name' className='form-control' id="username" name="username" />
+            <label for="username_users" >User name</label>
+            <input type='text' placeholder='Enter User name' className='form-control' id="username_users" name="username_users" />
           </div>
 
           <div className='mb-2'>
