@@ -6,7 +6,7 @@ const authenticateToken = async (req, res, next) => {
 
     // בדיקה אם הטוקן קיים
     if (!token) {
-        return res.render("matchup")
+        return res.render("https://matchup-back.vercel.app")
         // פה לשים מעבר לעמוד הרשמה 
     }
 

@@ -214,7 +214,7 @@ const login = async (req, res) => {
 
     res.json({
       msg: "Welcome " + username_users + "!",
-      redirectTo: "/",
+      redirectTo: "https://matchup-back.vercel.app",
       username_users: username_users,
     });
   } catch (error) {

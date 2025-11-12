@@ -18,7 +18,7 @@ const checkToken = (req, res, next) => {
 
         req.user = decoded;
         console.log("user already loged in.")
-        return res.redirect('/home');
+        return res.redirect('https://matchup-back.vercel.app');
     });
 };
 

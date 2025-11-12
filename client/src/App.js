@@ -38,7 +38,7 @@ function AppContent() {
     }).then(async (result) => {
       if (result.isConfirmed) {
         try {
-          const res = await fetch("/auth/matchup", {
+          const res = await fetch("https://matchup-back-10-11-2025.onrender.com/auth/matchup", {
             method: "GET",
             headers: { "Content-Type": "application/json" },
           });
