@@ -46,7 +46,7 @@ function AppContent() {
           if (res.ok) {
             localStorage.removeItem('logedName');
             setUser(null);
-            navigate('/login');
+            navigate('https://matchup-back-10-11-2025.onrender.com/auth/login');
           } else {
             console.log("Logout failed:", data.msg);
           }
