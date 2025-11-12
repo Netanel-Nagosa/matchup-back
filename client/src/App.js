@@ -45,6 +45,7 @@ function AppContent() {
     }).then(async (result) => {
       if (result.isConfirmed) {
         try {
+          console.log("New App.js loaded")
           const res = await fetch(
             "https://matchup-back-10-11-2025.onrender.com/auth/matchup",
             {
