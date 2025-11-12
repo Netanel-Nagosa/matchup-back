@@ -114,8 +114,8 @@ const addUser = async (req, res) => {
     const Token = jwt.sign({ newUser }, SECRET, { expiresIn: "5m" });
     res.cookie("token", Token, { httpOnly: false, sameSite: "lax" });
 
-    console.log({ msg: "User added successfully!", newUser });
-    return res.status(201).json({ msg: "Added successfully!", newUser });
+    console.log({ msg: "User added successfully!" });
+    return res.status(201).json({ msg: "Added successfully!" });
   } catch (error) {
     console.log("you have some error :: ", error.message);
     return res.status(500).json({ error: "Cannot add user" });
@@ -209,10 +209,7 @@ const login = async (req, res) => {
     }
 
     const user = users[0];
-    const hashedPassword = await bcrypt.hash(password, 10);
-    await supabase
-      .from("users")
-      .insert([{ username_users, password: hashedPassword }]);
+    
     // בדיקת סיסמה
     const validPassword = await bcrypt.compare(password, user.password);
     if (!validPassword) {
