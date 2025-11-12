@@ -1,23 +1,24 @@
-// components/PrivateRoute.jsx
-import { Navigate } from 'react-router-dom';
+const jwt = require("jsonwebtoken");
+const { SECRET } = require("../config/database-config");
 
-const AuthToken = ({ children }) => {
-  const getCookie = (name) => {
-    const cookieStr = document.cookie;
-    const cookies = cookieStr.split('; ').reduce((acc, curr) => {
-      const [key, value] = curr.split('=');
-      acc[key] = value;
-      return acc;
-    }, {});
-    return cookies[name];
-  };
-  const token = getCookie('token');
+const authenticateToken = (req, res, next) => {
+  const token = req.cookies?.token; // לא צריך await
 
   if (!token) {
-    return <Navigate to="/login" />;
+    // אם זה API: החזר 401 JSON
+    return res.status(401).json({ message: "No token provided." });
+    // אם זה רנדור של דף: use res.redirect('/login')
   }
 
-  return children;
+  jwt.verify(token, SECRET, (err, decoded) => {
+    if (err) {
+      return res.status(403).json({ message: "Invalid token." });
+    }
+
+    // שמור payload ממויין - אל תכניס את אובייקט כל המשתמש אם חתמת עליו
+    req.user = decoded;
+    next();
+  });
 };
 
-export default AuthToken;
+module.exports = authenticateToken;
