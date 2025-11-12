@@ -1,8 +1,6 @@
-// components/PrivateRoute.jsx
-// src/utils/authToken.js
-import jwtDecode from "jwt-decode"; // ספרייה קלה לפענוח JWT בצד קליינט
+import jwtDecode from "jwt-decode";
 
-export const AuthToken = () => {
+const AuthToken = () => {
   const token = localStorage.getItem("token"); // או cookies
 
   if (!token) return null;
@@ -15,3 +13,5 @@ export const AuthToken = () => {
     return null;
   }
 };
+
+export default AuthToken;
