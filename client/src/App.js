@@ -48,9 +48,9 @@ function AppContent() {
           const res = await fetch(
             "https://matchup-back-10-11-2025.onrender.com/auth/matchup",
             {
-              method: "GET",
+              method: "POST",
               headers: { "Content-Type": "application/json" },
-              credentials: "include"
+              credentials: "include",
             }
           );
           const data = await res.json();
