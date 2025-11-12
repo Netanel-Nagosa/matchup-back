@@ -1,12 +1,11 @@
-const { where } = require('sequelize');
-const { Op } = require('sequelize');
-const userModel = require('../user');
-const { SECRET } = require("../config/database-config")
+const { where } = require("sequelize");
+const { Op } = require("sequelize");
+const userModel = require("../user");
+const { SECRET } = require("../config/database-config");
 const jwt = require("jsonwebtoken");
-const bcrypt = require('bcrypt');
-const axios = require('axios');
-const { createClient } = require('@supabase/supabase-js');
-
+const bcrypt = require("bcrypt");
+const axios = require("axios");
+const { createClient } = require("@supabase/supabase-js");
 
 // const addUser = async (req, res) => {
 //     const { username, first_name, last_name, email, password } = req.body;
@@ -20,7 +19,6 @@ const { createClient } = require('@supabase/supabase-js');
 //         return res.status(500).json({ msg: "Username in use ,please try another one ." })
 //     }
 
-
 //     const checkingUser = await userModel.findOne({
 //         where: {
 //             email: email
@@ -33,7 +31,6 @@ const { createClient } = require('@supabase/supabase-js');
 //     if (!username || !first_name || !last_name || !email || !password) {
 //         return res.status(500).json({ error: "There's a missing field ." })
 //     }
-
 
 //     try {
 //         const hashedPassword = await bcrypt.hash(password, 10);
@@ -71,53 +68,59 @@ const addUser = async (req, res) => {
   try {
     // בדיקה אם username כבר קיים
     const { data: existingUserByUsername } = await supabase
-      .from('users')
-      .select('*')
-      .eq('username_users', username_users);
+      .from("users")
+      .select("*")
+      .eq("username_users", username_users);
 
     if (existingUserByUsername.length > 0) {
-      return res.status(400).json({ msg: "Username in use, please try another one." });
+      return res
+        .status(400)
+        .json({ msg: "Username in use, please try another one." });
     }
 
     // בדיקה אם email כבר קיים
     const { data: existingUserByEmail } = await supabase
-      .from('users')
-      .select('*')
-      .eq('email', email);
+      .from("users")
+      .select("*")
+      .eq("email", email);
 
     if (existingUserByEmail.length > 0) {
-      return res.status(400).json({ msg: "There's an account with this email, please try another email." });
+      return res
+        .status(400)
+        .json({
+          msg: "There's an account with this email, please try another email.",
+        });
     }
 
     // יצירת המשתמש החדש
     const hashedPassword = await bcrypt.hash(password, 10);
     const { data: newUser, error } = await supabase
-      .from('users')
-      .insert([{
-        username_users,
-        first_name,
-        last_name,
-        email,
-        password: hashedPassword,
-        active: 1
-      }])
+      .from("users")
+      .insert([
+        {
+          username_users,
+          first_name,
+          last_name,
+          email,
+          password: hashedPassword,
+          active: 1,
+        },
+      ])
       .select(); // מחזיר את השורה שנוצרה
 
     if (error) throw error;
 
     // יצירת JWT
-    const Token = jwt.sign({ newUser }, SECRET, { expiresIn: '5m' });
-    res.cookie('token', Token, { httpOnly: false, sameSite: 'lax' });
+    const Token = jwt.sign({ newUser }, SECRET, { expiresIn: "5m" });
+    res.cookie("token", Token, { httpOnly: false, sameSite: "lax" });
 
     console.log({ msg: "User added successfully!", newUser });
     return res.status(201).json({ msg: "Added successfully!", newUser });
-
   } catch (error) {
     console.log("you have some error :: ", error.message);
     return res.status(500).json({ error: "Cannot add user" });
   }
 };
-
 
 // let userN = { logedName: " " };
 // const login = async (req, res) => {
@@ -151,16 +154,17 @@ const addUser = async (req, res) => {
 // }
 
 const logout = (req, res) => {
-
-    if (req.cookies && req.cookies.token) {
-
-        res.clearCookie('token', { httpOnly: true, secure: true, sameSite: 'Strict' });
-        console.log('Logged out successfully');
-        return res.json({ msg: "Logged out successfully !!!" });
-    } else {
-
-        return res.status(400).json('cannot log out , theres no user .');
-    }
+  if (req.cookies && req.cookies.token) {
+    res.clearCookie("token", {
+      httpOnly: true,
+      secure: true,
+      sameSite: "Strict",
+    });
+    console.log("Logged out successfully");
+    return res.json({ msg: "Logged out successfully !!!" });
+  } else {
+    return res.status(400).json("cannot log out , theres no user .");
+  }
 };
 
 // const getNames = async (req, res) => {
@@ -180,22 +184,23 @@ const logout = (req, res) => {
 //     };
 // }
 
-
 let userN = { logedName: " " };
 
 const login = async (req, res) => {
   const { username_users, password } = req.body;
 
   if (!username_users || !password) {
-    return res.status(400).json({ error: "Missing username_users or password." });
+    return res
+      .status(400)
+      .json({ error: "Missing username_users or password." });
   }
 
   try {
     // שליפה מהטבלה לפי username_users
     const { data: users, error } = await supabase
-      .from('users')
-      .select('*')
-      .eq('username_users', username_users);
+      .from("users")
+      .select("*")
+      .eq("username_users", username_users);
 
     if (error) throw error;
 
@@ -204,7 +209,10 @@ const login = async (req, res) => {
     }
 
     const user = users[0];
-
+    const hashedPassword = await bcrypt.hash(password, 10);
+    await supabase
+      .from("users")
+      .insert([{ username_users, password: hashedPassword }]);
     // בדיקת סיסמה
     const validPassword = await bcrypt.compare(password, user.password);
     if (!validPassword) {
@@ -212,8 +220,8 @@ const login = async (req, res) => {
     }
 
     // יצירת JWT
-    const token = jwt.sign({ user }, SECRET, { expiresIn: '5m' });
-    res.cookie("token", token, { httpOnly: false, sameSite: 'lax' });
+    const token = jwt.sign({ user }, SECRET, { expiresIn: "5m" });
+    res.cookie("token", token, { httpOnly: false, sameSite: "lax" });
 
     userN.logedName = username_users;
     console.log("USER >>>>>>>>>>> ", userN);
@@ -221,9 +229,8 @@ const login = async (req, res) => {
     res.json({
       msg: "Welcome " + username_users + "!",
       redirectTo: "/",
-      username_users: username_users
+      username_users: username_users,
     });
-
   } catch (error) {
     console.log("Login error :: ", error.message);
     res.status(500).json({ error: "Cannot login" });
@@ -231,18 +238,18 @@ const login = async (req, res) => {
 };
 
 const getNames = async (req, res) => {
-    const supabaseUrl = process.env.SUPABASE_URL;
-    const supabaseKey = process.env.SUPABASE_KEY;
+  const supabaseUrl = process.env.SUPABASE_URL;
+  const supabaseKey = process.env.SUPABASE_KEY;
   try {
     const response = await axios.get(`${supabaseUrl}/rest/v1/users`, {
       headers: {
         apikey: supabaseKey,
         Authorization: `Bearer ${supabaseKey}`,
-        Accept: 'application/json'
+        Accept: "application/json",
       },
       params: {
-        select: '*'  // או תבחר רק את השדות שאתה צריך
-      }
+        select: "*", // או תבחר רק את השדות שאתה צריך
+      },
     });
 
     return res.json(response.data);
@@ -250,116 +257,121 @@ const getNames = async (req, res) => {
     console.log("you have some error on get names func:: ", error.message);
     return res.status(500).json({ error: "Cannot fetch names" });
   }
-}
+};
 
 /*להמשיך לשנות את הפונקציות שכאן לפונקציות SDK SUPABASE 
 ואז לנסות להריץ בפרונט*/
 
 const getEmail = async (username) => {
-    try {
-        const user = await userModel.findOne({ where: { username } });
-        return user?.email || null;
-    } catch (error) {
-        console.log("cannot find email:", error);
-        return null;
-    }
-}
+  try {
+    const user = await userModel.findOne({ where: { username } });
+    return user?.email || null;
+  } catch (error) {
+    console.log("cannot find email:", error);
+    return null;
+  }
+};
 
 const editUsername = async (req, res) => {
-    const { username, newUsername, user } = req.body;
+  const { username, newUsername, user } = req.body;
 
-    try {
-
-        const isUser = await userModel.findOne({
-            where: {
-                username: username
-            }
-        });
-        if (!isUser || username !== user) {
-            return res.send({ problem: "Wrong Username, try again or try another Name." })
-        }
-
-        const theresUser = await userModel.findOne({
-            where: {
-                username: newUsername
-            }
-        });
-        if (theresUser) {
-            return res.send({ problem: "Theres a Username with that name , try again." })
-        }
-
-        const [updatedName] = await userModel.update(
-            { username: newUsername },
-            { where: { username } }
-        );
-        if (updatedName > 0)
-            return res.send({ good: "The name has succesfuly changed !" })
-        else
-            return res.send({ problem: "theres a problem l159" });
+  try {
+    const isUser = await userModel.findOne({
+      where: {
+        username: username,
+      },
+    });
+    if (!isUser || username !== user) {
+      return res.send({
+        problem: "Wrong Username, try again or try another Name.",
+      });
     }
-    catch (error) {
-        console.log("you have some error on edit user>> ", error);
-        res.status(500).send({ error: "Server error" });
-    };
-}
+
+    const theresUser = await userModel.findOne({
+      where: {
+        username: newUsername,
+      },
+    });
+    if (theresUser) {
+      return res.send({
+        problem: "Theres a Username with that name , try again.",
+      });
+    }
+
+    const [updatedName] = await userModel.update(
+      { username: newUsername },
+      { where: { username } }
+    );
+    if (updatedName > 0)
+      return res.send({ good: "The name has succesfuly changed !" });
+    else return res.send({ problem: "theres a problem l159" });
+  } catch (error) {
+    console.log("you have some error on edit user>> ", error);
+    res.status(500).send({ error: "Server error" });
+  }
+};
 const editPassword = async (req, res) => {
-    const { password, newPassword, user } = req.body;
+  const { password, newPassword, user } = req.body;
 
-    try {
-
-        const theresUser = await userModel.findOne({
-            where: {
-                username: user,
-                password: password
-            }
-        });
-        if (!theresUser) {
-            return res.send({ problem: "Current password is worng, try again." })
-        }
-
-        const [updatePassword] = await userModel.update(
-            { password: newPassword },
-            { where: { password } }
-        );
-        if (updatePassword > 0)
-            return res.send({ good: "The Password has succesfuly changed !" })
-        else
-            return res.send({ problem: "theres a problem l188" });
+  try {
+    const theresUser = await userModel.findOne({
+      where: {
+        username: user,
+        password: password,
+      },
+    });
+    if (!theresUser) {
+      return res.send({ problem: "Current password is worng, try again." });
     }
-    catch (error) {
-        console.log("you have some error on edit Password >> ", error);
-        res.status(500).send({ error: "Server error" });
-    };
-}
+
+    const [updatePassword] = await userModel.update(
+      { password: newPassword },
+      { where: { password } }
+    );
+    if (updatePassword > 0)
+      return res.send({ good: "The Password has succesfuly changed !" });
+    else return res.send({ problem: "theres a problem l188" });
+  } catch (error) {
+    console.log("you have some error on edit Password >> ", error);
+    res.status(500).send({ error: "Server error" });
+  }
+};
 
 const getJoinDate = async (req, res) => {
-    const { user } = req.body;
+  const { user } = req.body;
 
-    try {
-        const userDate = await userModel.findOne({
-            where: {
-                username: user
-            }
-        });
-        const dateOfJoin = userDate.createdAt;
-        return res.send({ msg: dateOfJoin })
-    } catch (error) {
-        console.log("you have some error on getJoinDate >> ", error);
-        res.status(500).send({ error: "Server error" });
-    }
-}
+  try {
+    const userDate = await userModel.findOne({
+      where: {
+        username: user,
+      },
+    });
+    const dateOfJoin = userDate.createdAt;
+    return res.send({ msg: dateOfJoin });
+  } catch (error) {
+    console.log("you have some error on getJoinDate >> ", error);
+    res.status(500).send({ error: "Server error" });
+  }
+};
 
-// לבדוק אם צריך את זה 
+// לבדוק אם צריך את זה
 const upsetPointsONnewMonth = async (req, res) => {
-    const [usersPoints] = await userModel.update(
-        { points: 0 },
-        { where: { id: { [Op.gt]: 0 } } }
-    );
-    if (usersPoints > 0 )
-        return res.send({ good: "all goes down to 0 !" })
-    else
-        return res.send({ problem: "theres a problem 221line" });
+  const [usersPoints] = await userModel.update(
+    { points: 0 },
+    { where: { id: { [Op.gt]: 0 } } }
+  );
+  if (usersPoints > 0) return res.send({ good: "all goes down to 0 !" });
+  else return res.send({ problem: "theres a problem 221line" });
+};
 
-}
-
-module.exports = { addUser, login, logout, getNames, getEmail, editUsername, editPassword, getJoinDate, upsetPointsONnewMonth };
+module.exports = {
+  addUser,
+  login,
+  logout,
+  getNames,
+  getEmail,
+  editUsername,
+  editPassword,
+  getJoinDate,
+  upsetPointsONnewMonth,
+};
