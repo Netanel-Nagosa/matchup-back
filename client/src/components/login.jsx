@@ -21,10 +21,10 @@ export default function Login() {
         Swal.fire({
           icon: 'warning',
           text: 'YOU NEED TO FILL ALL THE FORM.',
-          background:"black",
-          color:"white",
+          background: "black",
+          color: "white",
           timer: 2500,
-          confirmButtonColor:'yellowgreen'
+          confirmButtonColor: 'yellowgreen'
         });
         return;
       }
@@ -44,19 +44,22 @@ export default function Login() {
         Swal.fire({
           icon: 'success',
           text: `WELCOME BACK , ${dl.logedName} !`,
-          background:"black",
-          color:"white",
+          background: "black",
+          color: "white",
           timer: 2500,
           showConfirmButton: false,
+        }).then(() => {
+          if (data.redirectTo) {
+            window.location.href = data.redirectTo;
+          }
         })
-        
       } else {
         Swal.fire({
           icon: 'error',
-          iconColor:'crimson',
+          iconColor: 'crimson',
           text: 'WORNG USERNAME OR PASSWORD .',
-          background:"black",
-          color:"red",
+          background: "black",
+          color: "red",
           timer: 2500,
           showConfirmButton: false,
         });
@@ -76,7 +79,7 @@ export default function Login() {
               <path fill-rule="evenodd" d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8m8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1" />
             </svg>
           </div>
-          <h3 className='text-center' style={{color:'goldenrod',fontWeight:'200'}}>LOGIN</h3>
+          <h3 className='text-center' style={{ color: 'goldenrod', fontWeight: '200' }}>LOGIN</h3>
           <div className='mb-2'>
             <label for="username_users" >User name</label>
             <input type='text' placeholder='Enter User name' className='form-control' id="username_users" name="username_users" />
@@ -87,13 +90,13 @@ export default function Login() {
             <input type='password' placeholder='Enter Password' className='form-control' id="password" name="password" />
           </div>
 
-          <div className='mb-4'/>
+          <div className='mb-4' />
 
           <div className='d-grid'>
-            <button type="submit" className='btn' style={{color:'white',background:'#198754'}}> login </button>
+            <button type="submit" className='btn' style={{ color: 'white', background: '#198754' }}> login </button>
           </div>
           <p className='text-right mt-2'>
-            New here ?<Link to="/register" className='ms-2' style={{color:'gold'}}>Sign up !</Link>
+            New here ?<Link to="/register" className='ms-2' style={{ color: 'gold' }}>Sign up !</Link>
           </p>
         </form>
       </div>
