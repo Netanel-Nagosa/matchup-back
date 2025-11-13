@@ -17,7 +17,7 @@ function LeaguePage({ leagueKey, leagueTitle }) {
     if (!loggedUser || !loggedUser.logedName) return;
     const player = loggedUser.logedName;
     const checkAndClearBets = () => {
-      fetch('/auth/clear-bets', {
+      fetch('https://matchup-back-10-11-2025.onrender.com/auth/clear-bets', {
         method: 'DELETE',
         headers: {
           'Content-Type': 'application/json',
@@ -40,7 +40,7 @@ function LeaguePage({ leagueKey, leagueTitle }) {
     const date = new Date(time);
 
     try {
-      const res = await fetch("/auth/homeMatches", {
+      const res = await fetch("https://matchup-back-10-11-2025.onrender.com/auth/homeMatches", {
         method: "POST",
         headers: {
           "Content-Type": "application/json"
@@ -128,7 +128,7 @@ function LeaguePage({ leagueKey, leagueTitle }) {
 
   const handleAITip = async (home, away) => {
     try {
-      const response = await fetch("http://localhost:8081/auth/ai-tip", {
+      const response = await fetch("https://matchup-back-10-11-2025.onrender.com/auth/ai-tip", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ home, away }),

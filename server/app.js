@@ -34,6 +34,7 @@ app.get("/api/odds/:leagueKey", async (req, res) => {
 const apiKey2 = process.env.ODDS_API_KEY_2;
 
 app.get("/api/sports", async (req, res) => {
+    console.log("GET /api/sports called ✅");
   try {
     const response = await fetch(`https://api.the-odds-api.com/v4/sports/?daysFrom=1&apiKey=${apiKey2}`);
     const data = await response.json();
