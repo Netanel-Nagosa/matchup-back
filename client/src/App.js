@@ -273,9 +273,7 @@ function AppContent() {
         <Route
           path="/Game"
           element={
-            <AuthToken>
               <Game />
-            </AuthToken>
           }
         />
         <Route
