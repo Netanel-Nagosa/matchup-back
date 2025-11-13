@@ -77,7 +77,7 @@ function LeaguePage({ leagueKey, leagueTitle }) {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const res = await fetch(`/api/odds/${leagueKey}`);
+        const res = await fetch(`https://matchup-back-10-11-2025.onrender.com/api/odds/${leagueKey}`);
         const data = await res.json();
         const now = new Date();
         const threeDaysFromNow = new Date();
