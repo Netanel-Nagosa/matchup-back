@@ -27,7 +27,7 @@ import { UserContext, UserProvider } from "./components/UserContext";
 function AppContent() {
   const { user, setUser } = useContext(UserContext);
   const [menuOpen, setMenuOpen] = useState(false);
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
 
   const handleLogout = async (e) => {
     e.preventDefault();
