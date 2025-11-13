@@ -1,12 +1,11 @@
-import React, { useContext, useState } from "react";
+import { useContext, useState } from "react";
 import "./App.css";
 import {
   BrowserRouter,
   Routes,
   Route,
   Link,
-  NavLink,
-  useNavigate,
+  NavLink
 } from "react-router-dom";
 import Login from "./components/login";
 import Register from "./components/register";
