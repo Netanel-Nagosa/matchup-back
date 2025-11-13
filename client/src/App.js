@@ -273,7 +273,7 @@ function AppContent() {
         <Route
           path="/Game"
           element={
-              <Game />
+              <Game /> 
           }
         />
         <Route
