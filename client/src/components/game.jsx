@@ -8,7 +8,7 @@ export default function Game() {
 
   const fetchSoccerLeagues = async () => {
     try {
-      const res = await fetch(`/api/sports`);
+      const res = await fetch(`https://matchup-back-10-11-2025.onrender.com/api/sports`);
       const data = await res.json();
 
       const soccerTitles = Object.values(data)
